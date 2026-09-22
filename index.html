@@ -38,6 +38,7 @@
       <a class="nav-link" href="#clients"><span>♙</span> Clients <b id="nav-client-count">128</b></a>
       <a class="nav-link" href="#payments"><span>₣</span> Paiements <b class="nav-new">NEW</b></a>
       <a class="nav-link" href="#advertising"><span>◈</span> Publicité</a>
+      <a class="nav-link" href="#notifications"><span>✦</span> Notifications <b class="nav-new">NEW</b></a>
       <a class="nav-link" href="#suppliers"><span>⌁</span> Fournisseurs</a>
     </nav>
     <div class="sidebar-bottom">
@@ -130,6 +131,29 @@
         <div class="ad-channel"><div class="channel-icon wave">W</div><div><strong>WhatsApp Business</strong><small>Catalogue et messages clients</small></div><span class="channel-status live">Active</span><b>18 620 <small>vues</small></b></div>
         <div class="ad-channel"><div class="channel-icon google">G</div><div><strong>Google Search</strong><small>« livraison colis Afrique de l’Ouest »</small></div><span class="channel-status paused">En pause</span><b>4 860 <small>impressions</small></b></div>
       </div>
+    </section>
+
+    <section class="panel notifications-panel" id="notifications">
+      <div class="panel-heading">
+        <div><p class="eyebrow">RELATION CLIENT</p><h2>Notifications WhatsApp & SMS</h2><p>Informez vos clients à chaque étape de leur commande.</p></div>
+        <span class="payment-connected"><i></i> Canaux prêts</span>
+      </div>
+      <div class="notification-layout">
+        <div class="notification-channels">
+          <div class="notification-channel"><span class="channel-icon wave">W</span><div><strong>WhatsApp Business</strong><small>Messages transactionnels</small></div><b class="channel-on">Activé</b></div>
+          <div class="notification-channel"><span class="channel-icon google">S</span><div><strong>SMS de suivi</strong><small>Alertes courtes et urgentes</small></div><b class="channel-on">Activé</b></div>
+          <div class="notification-stats"><div><span>Envoyées ce mois</span><strong id="notification-total">186</strong></div><div><span>Taux de délivrance</span><strong>98,4%</strong></div></div>
+        </div>
+        <form class="notification-form" id="notification-form">
+          <label>Canal<select name="channel"><option>WhatsApp Business</option><option>SMS</option></select></label>
+          <label>Destinataire<input name="recipient" type="tel" required value="002798834749" /></label>
+          <label>Modèle de message<select name="template"><option>Commande prise en charge</option><option>Colis en livraison</option><option>Commande livrée</option><option>Message personnalisé</option></select></label>
+          <label>Message<textarea name="message" rows="3" required>RACHCO227 : votre colis R227-1048 est en livraison. Suivez son trajet depuis votre espace client.</textarea></label>
+          <button class="primary-button" type="submit">Préparer l’envoi <span>→</span></button>
+          <p class="notification-message" id="notification-message" role="status"></p>
+        </form>
+      </div>
+      <div class="notification-history"><strong>Dernières notifications</strong><span>WhatsApp · Amina Diop · il y a 12 min</span><span>SMS · Koffi Mensah · il y a 38 min</span></div>
     </section>
 
   </main>

@@ -110,6 +110,14 @@ document.querySelector("#campaign-form").addEventListener("submit", (event) => {
   campaignModal.close();
   event.target.reset();
 });
+const notificationForm = document.querySelector("#notification-form");
+notificationForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const total = Number(document.querySelector("#notification-total").textContent) + 1;
+  document.querySelector("#notification-total").textContent = total;
+  document.querySelector("#notification-message").textContent = `${form.get("channel")} préparé pour ${form.get("recipient")}. Connexion API requise pour l'envoi réel.`;
+});
 renderClients();
 renderOrders();
 renderRows();
