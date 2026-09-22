@@ -18,6 +18,7 @@
       <a class="nav-link" href="#stock"><span>▤</span> Marchandises <b id="nav-stock-count">24</b></a>
       <a class="nav-link" href="#movements"><span>↕</span> Mouvements</a>
       <a class="nav-link" href="#clients"><span>♙</span> Clients <b id="nav-client-count">128</b></a>
+      <a class="nav-link" href="#payments"><span>₣</span> Paiements <b class="nav-new">NEW</b></a>
       <a class="nav-link" href="#suppliers"><span>⌁</span> Fournisseurs</a>
     </nav>
     <div class="sidebar-bottom">
@@ -70,8 +71,25 @@
       <article class="panel delivery-card"><div class="delivery-title"><div><p class="eyebrow">PROCHAINE RÉCEPTION</p><h2>Livraison fournisseur</h2></div><span class="date-badge">24 <small>SEP</small></span></div><div class="supplier"><div class="supplier-logo">AT</div><div><strong>Atelier Textile</strong><p>Commande #AT-2841 · 84 articles</p></div><span class="arrival">Dans 2 jours</span></div><div class="progress"><span style="width: 72%"></span></div><div class="progress-label"><span>Préparation fournisseur</span><span>72%</span></div></article>
       <article class="panel alert-card"><div class="panel-heading"><div><h2>Alertes stock</h2><p>Actions recommandées.</p></div><span class="alert-count">3</span></div><div class="alert-row"><span class="alert-dot red"></span><div><strong>Hoodie Transit</strong><p>Plus que 4 unités</p></div><button class="small-button">Commander</button></div><div class="alert-row"><span class="alert-dot yellow"></span><div><strong>Étiquettes colis</strong><p>Stock faible · 18 unités</p></div><button class="small-button">Voir</button></div></article>
     </section>
+
+    <section class="panel payments-panel" id="payments">
+      <div class="panel-heading">
+        <div><p class="eyebrow">ENCAISSEMENT MOBILE</p><h2>Mode de paiement</h2><p>Recevez les paiements clients avec Mynita Wave.</p></div>
+        <span class="payment-connected"><i></i> Connecté</span>
+      </div>
+      <div class="payment-layout">
+        <div class="wave-card">
+          <div class="wave-card-head"><div class="wave-logo">W</div><div><strong>Mynita Wave</strong><small>Paiement mobile</small></div><span class="verified">✓ Vérifié</span></div>
+          <div class="merchant-number"><small>COMPTE MARCHAND</small><strong>+221 77 000 22 7</strong></div>
+          <div class="wave-card-foot"><span>Devise <b>FCFA</b></span><span>Dernière synchro · 09:41</span></div>
+        </div>
+        <div class="payment-stats"><div><span>Reçus ce mois</span><strong>186 400 FCFA</strong><small class="positive">↑ 18,2%</small></div><div><span>Transactions</span><strong>42</strong><small>100% confirmées</small></div><button class="outline-button" id="open-payment-modal">Gérer Mynita Wave <span>→</span></button></div>
+      </div>
+      <div class="payment-activity"><div class="payment-activity-head"><strong>Derniers paiements</strong><button class="text-button">Voir l’historique <span>→</span></button></div><div class="payment-transactions"><div><span class="transaction-avatar">AD</span><p><strong>Amina Diop</strong><small>Commande #1048 · il y a 12 min</small></p><b>+32 500 FCFA</b><em>Confirmé</em></div><div><span class="transaction-avatar">KM</span><p><strong>Koffi Mensah</strong><small>Commande #1047 · il y a 38 min</small></p><b>+18 000 FCFA</b><em>Confirmé</em></div></div></div>
+    </section>
   </main>
 
+  <dialog id="payment-modal"><form method="dialog" id="payment-form"><div class="modal-heading"><div><p class="eyebrow">CONFIGURATION</p><h2>Mynita Wave</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Le compte marchand est utilisé pour recevoir les paiements de vos clients.</p><label>Numéro du compte marchand<input name="merchant" value="+221 77 000 22 7" required /></label><label>Devise<select name="currency"><option>FCFA (XOF)</option><option>FCFA (XAF)</option></select></label><button class="primary-button" type="submit">Enregistrer la configuration</button></form></dialog>
   <dialog id="client-modal"><form method="dialog" id="client-form"><div class="modal-heading"><div><p class="eyebrow">NOUVEAU PROFIL</p><h2>Ajouter un client</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom complet<input name="name" required placeholder="Ex. Amina Diop" /></label><label>Email<input name="email" type="email" required placeholder="client@email.com" /></label><label>Zone de livraison<input name="zone" required placeholder="Ex. Dakar, Sénégal" /></label><button class="primary-button" type="submit">Ajouter le client</button></form></dialog>
   <dialog id="stock-modal"><form method="dialog" id="stock-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE OPÉRATION</p><h2>Enregistrer une entrée</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Produit<input name="product" required placeholder="Nom de la marchandise" /></label><div class="form-row"><label>Référence<input name="reference" required placeholder="Ex. R227-009" /></label><label>Quantité<input name="quantity" type="number" min="1" required placeholder="0" /></label></div><label>Catégorie<select name="category"><option>Vêtements</option><option>Accessoires</option><option>Packaging</option></select></label><button class="primary-button" type="submit">Ajouter au stock</button></form></dialog>
   <script src="script.js"></script>

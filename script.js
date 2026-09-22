@@ -63,5 +63,14 @@ document.querySelector("#client-form").addEventListener("submit", (event) => {
   clientModal.close();
   event.target.reset();
 });
+const paymentModal = document.querySelector("#payment-modal");
+document.querySelector("#open-payment-modal").addEventListener("click", () => paymentModal.showModal());
+document.querySelector("#payment-form .close-modal").addEventListener("click", () => paymentModal.close());
+document.querySelector("#payment-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const account = new FormData(event.target).get("merchant");
+  document.querySelector(".merchant-number strong").textContent = account;
+  paymentModal.close();
+});
 renderClients();
 renderRows();
