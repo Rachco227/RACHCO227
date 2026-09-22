@@ -17,13 +17,14 @@
       <a class="nav-link active" href="#dashboard"><span>▦</span> Vue générale</a>
       <a class="nav-link" href="#stock"><span>▤</span> Marchandises <b id="nav-stock-count">24</b></a>
       <a class="nav-link" href="#movements"><span>↕</span> Mouvements</a>
+      <a class="nav-link" href="#orders"><span>□</span> Commandes <b id="nav-order-count">12</b></a>
       <a class="nav-link" href="#clients"><span>♙</span> Clients <b id="nav-client-count">128</b></a>
       <a class="nav-link" href="#payments"><span>₣</span> Paiements <b class="nav-new">NEW</b></a>
       <a class="nav-link" href="#suppliers"><span>⌁</span> Fournisseurs</a>
     </nav>
     <div class="sidebar-bottom">
       <div class="warehouse-status"><span></span><div><strong>Dépôt principal</strong><small>Ouvert · Dakar</small></div></div>
-      <a class="nav-link muted" href="#settings"><span>⚙</span> Paramètres</a>
+      <a class="nav-link muted" href="#settings" id="settings-link"><span>⚙</span> Paramètres</a>
     </div>
   </aside>
 
@@ -67,6 +68,13 @@
       <article class="panel movements-panel" id="movements"><div class="panel-heading"><div><h2>Activité récente</h2><p>Les dernières opérations du dépôt.</p></div><button class="dots" aria-label="Plus d'options">•••</button></div><div class="activity-list" id="activity-list"></div><button class="full-button">Voir tous les mouvements <span>→</span></button></article>
     </section>
 
+    <section class="panel orders-panel" id="orders">
+      <div class="panel-heading"><div><p class="eyebrow">SUIVI DES ENVOIS</p><h2>Commandes</h2><p>Préparez et suivez les colis clients.</p></div><div class="heading-actions"><label class="search"><span>⌕</span><input id="order-search" placeholder="Rechercher une commande..." /></label><select id="order-filter" aria-label="Filtrer les commandes"><option value="all">Tous les statuts</option><option value="preparing">À préparer</option><option value="shipping">En livraison</option><option value="delivered">Livrées</option></select></div></div>
+      <div class="orders-summary"><div><span>Commandes ouvertes</span><strong>12</strong></div><div><span>À préparer</span><strong>05</strong></div><div><span>En livraison</span><strong>04</strong></div><div><span>Livrées ce mois</span><strong>86</strong></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Commande</th><th>Client</th><th>Destination</th><th>Montant</th><th>Statut</th><th></th></tr></thead><tbody id="order-table"></tbody></table></div>
+      <div class="panel-footer"><span id="order-result-count">4 commandes</span><button class="text-button">Voir toutes les commandes <span>→</span></button></div>
+    </section>
+
     <section class="bottom-grid">
       <article class="panel delivery-card"><div class="delivery-title"><div><p class="eyebrow">PROCHAINE RÉCEPTION</p><h2>Livraison fournisseur</h2></div><span class="date-badge">24 <small>SEP</small></span></div><div class="supplier"><div class="supplier-logo">AT</div><div><strong>Atelier Textile</strong><p>Commande #AT-2841 · 84 articles</p></div><span class="arrival">Dans 2 jours</span></div><div class="progress"><span style="width: 72%"></span></div><div class="progress-label"><span>Préparation fournisseur</span><span>72%</span></div></article>
       <article class="panel alert-card"><div class="panel-heading"><div><h2>Alertes stock</h2><p>Actions recommandées.</p></div><span class="alert-count">3</span></div><div class="alert-row"><span class="alert-dot red"></span><div><strong>Hoodie Transit</strong><p>Plus que 4 unités</p></div><button class="small-button">Commander</button></div><div class="alert-row"><span class="alert-dot yellow"></span><div><strong>Étiquettes colis</strong><p>Stock faible · 18 unités</p></div><button class="small-button">Voir</button></div></article>
@@ -89,6 +97,7 @@
     </section>
   </main>
 
+  <dialog id="shipping-modal"><form method="dialog" id="shipping-form"><div class="modal-heading"><div><p class="eyebrow">PARAMÈTRES D’EXPÉDITION</p><h2>Adresse d’envoi</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Cette adresse sera utilisée comme point de départ pour vos colis.</p><label>Adresse<input name="address" value="Dépôt RACHCO227, Zone industrielle" required /></label><div class="form-row"><label>Ville<input name="city" value="Dakar" required /></label><label>Pays<input name="country" value="Sénégal" required /></label></div><button class="primary-button" type="submit">Enregistrer l’adresse</button></form></dialog>
   <dialog id="payment-modal"><form method="dialog" id="payment-form"><div class="modal-heading"><div><p class="eyebrow">CONFIGURATION</p><h2>Mynita Wave</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Le compte marchand est utilisé pour recevoir les paiements de vos clients.</p><label>Numéro du compte marchand<input name="merchant" value="+221 77 000 22 7" required /></label><label>Devise<select name="currency"><option>FCFA (XOF)</option><option>FCFA (XAF)</option></select></label><button class="primary-button" type="submit">Enregistrer la configuration</button></form></dialog>
   <dialog id="client-modal"><form method="dialog" id="client-form"><div class="modal-heading"><div><p class="eyebrow">NOUVEAU PROFIL</p><h2>Ajouter un client</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom complet<input name="name" required placeholder="Ex. Amina Diop" /></label><label>Email<input name="email" type="email" required placeholder="client@email.com" /></label><label>Zone de livraison<input name="zone" required placeholder="Ex. Dakar, Sénégal" /></label><button class="primary-button" type="submit">Ajouter le client</button></form></dialog>
   <dialog id="stock-modal"><form method="dialog" id="stock-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE OPÉRATION</p><h2>Enregistrer une entrée</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Produit<input name="product" required placeholder="Nom de la marchandise" /></label><div class="form-row"><label>Référence<input name="reference" required placeholder="Ex. R227-009" /></label><label>Quantité<input name="quantity" type="number" min="1" required placeholder="0" /></label></div><label>Catégorie<select name="category"><option>Vêtements</option><option>Accessoires</option><option>Packaging</option></select></label><button class="primary-button" type="submit">Ajouter au stock</button></form></dialog>

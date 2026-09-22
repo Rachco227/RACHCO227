@@ -18,6 +18,12 @@ const clients = [
   { name: "Mariam Traoré", email: "mariam.t@email.com", zone: "Bamako, Mali", order: "18 sept. 2026", status: "pending", label: "À confirmer" },
   { name: "Jean Kouassi", email: "jean.k@email.com", zone: "Lomé, Togo", order: "15 sept. 2026", status: "active", label: "Actif" }
 ];
+const orders = [
+  { id: "#1048", client: "Amina Diop", destination: "Dakar, Sénégal", amount: "32 500 FCFA", status: "shipping", label: "En livraison" },
+  { id: "#1047", client: "Koffi Mensah", destination: "Abidjan, Côte d’Ivoire", amount: "18 000 FCFA", status: "preparing", label: "À préparer" },
+  { id: "#1046", client: "Mariam Traoré", destination: "Bamako, Mali", amount: "45 000 FCFA", status: "delivered", label: "Livrée" },
+  { id: "#1045", client: "Jean Kouassi", destination: "Lomé, Togo", amount: "26 500 FCFA", status: "shipping", label: "En livraison" }
+];
 const table = document.querySelector("#stock-table");
 function renderRows() {
   const query = document.querySelector("#stock-search").value.toLowerCase();
@@ -38,6 +44,15 @@ function renderClients() {
 }
 document.querySelector("#client-search").addEventListener("input", renderClients);
 document.querySelector("#client-filter").addEventListener("change", renderClients);
+function renderOrders() {
+  const query = document.querySelector("#order-search").value.toLowerCase();
+  const filter = document.querySelector("#order-filter").value;
+  const result = orders.filter((order) => (filter === "all" || order.status === filter) && `${order.id} ${order.client} ${order.destination}`.toLowerCase().includes(query));
+  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu" aria-label="Options ${order.id}">•••</button></td></tr>`).join("");
+  document.querySelector("#order-result-count").textContent = `${result.length} commande${result.length > 1 ? "s" : ""}`;
+}
+document.querySelector("#order-search").addEventListener("input", renderOrders);
+document.querySelector("#order-filter").addEventListener("change", renderOrders);
 const modal = document.querySelector("#stock-modal");
 document.querySelector("#open-stock-modal").addEventListener("click", () => modal.showModal());
 document.querySelector(".close-modal").addEventListener("click", () => modal.close());
@@ -72,5 +87,17 @@ document.querySelector("#payment-form").addEventListener("submit", (event) => {
   document.querySelector(".merchant-number strong").textContent = account;
   paymentModal.close();
 });
+const shippingModal = document.querySelector("#shipping-modal");
+document.querySelector("#settings-link").addEventListener("click", (event) => { event.preventDefault(); shippingModal.showModal(); });
+document.querySelector("#shipping-form .close-modal").addEventListener("click", () => shippingModal.close());
+document.querySelector("#shipping-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const values = new FormData(event.target);
+  const address = `${values.get("address")}, ${values.get("city")}, ${values.get("country")}`;
+  document.querySelector(".warehouse-status small").textContent = `Envoi depuis · ${values.get("city")}`;
+  document.querySelector(".modal-copy").textContent = `Adresse enregistrée : ${address}`;
+  shippingModal.close();
+});
 renderClients();
+renderOrders();
 renderRows();
