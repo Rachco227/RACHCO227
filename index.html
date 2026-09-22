@@ -17,6 +17,7 @@
       <a class="nav-link active" href="#dashboard"><span>▦</span> Vue générale</a>
       <a class="nav-link" href="#stock"><span>▤</span> Marchandises <b id="nav-stock-count">24</b></a>
       <a class="nav-link" href="#movements"><span>↕</span> Mouvements</a>
+      <a class="nav-link" href="#clients"><span>♙</span> Clients <b id="nav-client-count">128</b></a>
       <a class="nav-link" href="#suppliers"><span>⌁</span> Fournisseurs</a>
     </nav>
     <div class="sidebar-bottom">
@@ -42,6 +43,20 @@
       <article class="metric-card"><div class="metric-icon purple">◷</div><div><p>Valeur du stock</p><strong>48 620 €</strong><small class="neutral">Dernière mise à jour · 09:40</small></div></article>
     </section>
 
+    <section class="panel clients-panel" id="clients">
+      <div class="panel-heading">
+        <div><h2>Clients</h2><p>Suivez vos clients et leurs dernières commandes.</p></div>
+        <div class="heading-actions">
+          <label class="search"><span>⌕</span><input id="client-search" placeholder="Rechercher un client..." /></label>
+          <select id="client-filter" aria-label="Filtrer les clients"><option value="all">Tous les statuts</option><option value="active">Actifs</option><option value="pending">À confirmer</option></select>
+          <button class="primary-button compact-button" id="open-client-modal">＋ Nouveau client</button>
+        </div>
+      </div>
+      <div class="client-summary"><div><span class="summary-label">Clients inscrits</span><strong id="client-total">128</strong></div><div><span class="summary-label">Commandes ce mois</span><strong>86</strong></div><div><span class="summary-label">Panier moyen</span><strong>74 €</strong></div><div class="client-growth">↑ 14,6% <small>vs. mois dernier</small></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Dernière commande</th><th>Statut</th><th></th></tr></thead><tbody id="client-table"></tbody></table></div>
+      <div class="panel-footer"><span id="client-result-count">4 clients</span><button class="text-button">Voir tous les clients <span>→</span></button></div>
+    </section>
+
     <section class="content-grid">
       <article class="panel stock-panel" id="stock">
         <div class="panel-heading"><div><h2>Stock actuel</h2><p>Suivez vos marchandises par catégorie.</p></div><div class="heading-actions"><label class="search"><span>⌕</span><input id="stock-search" placeholder="Rechercher..." /></label><select id="category-filter" aria-label="Filtrer par catégorie"><option value="all">Toutes les catégories</option><option value="vêtements">Vêtements</option><option value="accessoires">Accessoires</option><option value="packaging">Packaging</option></select></div></div>
@@ -57,6 +72,7 @@
     </section>
   </main>
 
+  <dialog id="client-modal"><form method="dialog" id="client-form"><div class="modal-heading"><div><p class="eyebrow">NOUVEAU PROFIL</p><h2>Ajouter un client</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom complet<input name="name" required placeholder="Ex. Amina Diop" /></label><label>Email<input name="email" type="email" required placeholder="client@email.com" /></label><label>Zone de livraison<input name="zone" required placeholder="Ex. Dakar, Sénégal" /></label><button class="primary-button" type="submit">Ajouter le client</button></form></dialog>
   <dialog id="stock-modal"><form method="dialog" id="stock-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE OPÉRATION</p><h2>Enregistrer une entrée</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Produit<input name="product" required placeholder="Nom de la marchandise" /></label><div class="form-row"><label>Référence<input name="reference" required placeholder="Ex. R227-009" /></label><label>Quantité<input name="quantity" type="number" min="1" required placeholder="0" /></label></div><label>Catégorie<select name="category"><option>Vêtements</option><option>Accessoires</option><option>Packaging</option></select></label><button class="primary-button" type="submit">Ajouter au stock</button></form></dialog>
   <script src="script.js"></script>
 </body>
