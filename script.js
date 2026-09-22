@@ -98,6 +98,18 @@ document.querySelector("#shipping-form").addEventListener("submit", (event) => {
   document.querySelector(".modal-copy").textContent = `Adresse enregistrée : ${address}`;
   shippingModal.close();
 });
+const campaignModal = document.querySelector("#campaign-modal");
+document.querySelector("#open-campaign-modal").addEventListener("click", () => campaignModal.showModal());
+document.querySelector("#campaign-form .close-modal").addEventListener("click", () => campaignModal.close());
+document.querySelector("#campaign-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const channel = form.get("channel");
+  const notice = document.querySelector(".advertising-panel .panel-heading p:last-child");
+  notice.textContent = `${form.get("name")} est prête sur ${channel} avec un budget de ${Number(form.get("budget")).toLocaleString("fr-FR")} FCFA.`;
+  campaignModal.close();
+  event.target.reset();
+});
 renderClients();
 renderOrders();
 renderRows();
