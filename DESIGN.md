@@ -2,7 +2,7 @@
 
 ## Positionnement
 
-RACHCO227 est une boutique streetwear indépendante. La surface d'accueil persuade par une lecture éditoriale : la collection est le sujet, le panier reste immédiatement accessible.
+RACHCO227 est une boutique streetwear indépendante avec un service de livraison en Afrique de l’Ouest. La surface d'accueil persuade par une lecture éditoriale : la collection, la commande et la livraison sont accessibles sans friction.
 
 ## Système
 
@@ -17,3 +17,4 @@ RACHCO227 est une boutique streetwear indépendante. La surface d'accueil persua
 1. Montrer la collection avant les explications.
 2. Garder l'achat à portée de main sans interrompre la découverte.
 3. Réduire le bruit visuel : une couleur signal, un geste par composant.
+4. Rendre la destination et le parcours de livraison lisibles avant le paiement.

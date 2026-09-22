@@ -114,6 +114,13 @@ h2 { margin: 0; font: 600 clamp(2.6rem, 5vw, 5.3rem)/.9 var(--display); letter-s
 .shipping-rule span { color: var(--orange); font: 600 .72rem var(--display); }
 .shipping-rule h3 { margin: 0 0 5px; font: 600 1rem var(--display); }
 .shipping-rule p { margin: 0; color: rgba(255,253,248,.7); font-size: .82rem; line-height: 1.55; }
+.delivery-form { margin: 0 0 28px; }
+.delivery-form label { display: block; margin-bottom: 9px; color: var(--white); font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.delivery-input-row { display: flex; border-bottom: 1px solid rgba(255,253,248,.8); }
+.delivery-input-row input { flex: 1; min-width: 0; padding: 13px 0; border: 0; outline: 0; background: transparent; color: var(--white); }
+.delivery-input-row input::placeholder { color: rgba(255,253,248,.55); }
+.delivery-input-row button { padding: 10px 0 10px 15px; border: 0; background: transparent; color: var(--orange); cursor: pointer; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.delivery-status { margin: 10px 0 0; color: rgba(255,253,248,.65); font-size: .72rem; }
 .newsletter-section { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; padding: 90px 12vw; background: var(--white); }
 .newsletter-section h2 { font-size: clamp(3rem, 6vw, 6rem); }
 .newsletter-form { display: flex; flex-direction: column; justify-content: center; }

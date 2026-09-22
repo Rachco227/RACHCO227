@@ -96,6 +96,11 @@ document.querySelector("#cart-close").addEventListener("click", () => document.b
 document.querySelector("#overlay").addEventListener("click", () => document.body.classList.remove("drawer-open"));
 document.querySelector("#checkout-button").addEventListener("click", () => alert(cart.length ? "Merci ! Le paiement sera bientôt disponible." : "Votre panier est vide."));
 document.querySelector("#newsletter-form").addEventListener("submit", (event) => { event.preventDefault(); document.querySelector("#newsletter-status").textContent = "C’est noté. Bienvenue dans la boucle."; document.querySelector("#email").value = ""; });
+document.querySelector("#delivery-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const city = document.querySelector("#delivery-city").value.trim();
+  document.querySelector("#delivery-status").textContent = city ? `Bonne nouvelle : une estimation de livraison est disponible pour ${city}.` : "Saisissez une ville ou une zone pour vérifier.";
+});
 
 renderProducts();
 renderCart();
