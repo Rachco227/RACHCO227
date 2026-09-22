@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rachco227.github.io/RACHCO227/sitemap.xml
