@@ -24,6 +24,7 @@
     <nav aria-label="Navigation client">
       <a class="nav-current" href="#tracking">Suivre un colis</a>
       <a href="#orders">Mes commandes</a>
+      <a href="#notifications">Mes alertes</a>
       <a href="#help">Aide</a>
     </nav>
     <div class="header-actions">
@@ -98,6 +99,20 @@
           <article class="mini-order"><div class="mini-icon preparing">◷</div><div><span>COMMANDE #1047</span><strong>Préparation en cours</strong><small>Abidjan, Côte d'Ivoire</small></div><b>18 000 FCFA</b></article>
           <a class="all-orders" href="#help">Consulter toutes mes commandes <span>→</span></a>
         </div>
+      </div>
+    </section>
+
+    <section class="client-notifications-section" id="notifications">
+      <div class="section-heading"><div><p class="eyebrow">MES ALERTES</p><h2>Notifications de livraison</h2></div><span class="live-badge"><i></i> Préférences sécurisées</span></div>
+      <div class="client-notifications-panel">
+        <div class="client-notification-intro"><div class="notification-symbol">✦</div><div><h3>Restez informé à chaque étape</h3><p>Recevez automatiquement le statut de votre colis sur WhatsApp ou par SMS.</p></div></div>
+        <form id="client-notification-form">
+          <div class="client-channel-choice"><label><input type="checkbox" name="whatsapp" checked /><span class="choice-icon whatsapp">W</span><span><strong>WhatsApp</strong><small>Messages détaillés et position du colis</small></span></label><label><input type="checkbox" name="sms" checked /><span class="choice-icon sms">S</span><span><strong>SMS</strong><small>Alertes essentielles sans connexion</small></span></label></div>
+          <label class="client-phone-field">Numéro de réception<input name="phone" type="tel" value="002798834749" required placeholder="Ex. 002798834749" /></label>
+          <div class="client-alert-types"><span>Recevoir une alerte pour :</span><label><input type="checkbox" name="picked" checked /> Prise en charge</label><label><input type="checkbox" name="out" checked /> Mise en livraison</label><label><input type="checkbox" name="delivered" checked /> Livraison confirmée</label></div>
+          <button class="primary-action client-notification-submit" type="submit">Enregistrer mes préférences <span>→</span></button>
+          <p class="client-notification-message" id="client-notification-message" role="status"></p>
+        </form>
       </div>
     </section>
 

@@ -68,3 +68,16 @@ document.querySelector("#account-form").addEventListener("submit", (event) => {
   accountMessage.className = "account-message success";
   event.target.reset();
 });
+
+const clientNotificationForm = document.querySelector("#client-notification-form");
+clientNotificationForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const channels = [form.get("whatsapp") ? "WhatsApp" : "", form.get("sms") ? "SMS" : ""].filter(Boolean);
+  if (!channels.length) {
+    document.querySelector("#client-notification-message").textContent = "Sélectionnez au moins un canal de notification.";
+    return;
+  }
+  localStorage.setItem("rachco227-notifications", JSON.stringify({ phone: form.get("phone"), channels }));
+  document.querySelector("#client-notification-message").textContent = `Préférences enregistrées pour ${form.get("phone")} · ${channels.join(" + ")}.`;
+});
