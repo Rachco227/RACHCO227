@@ -104,6 +104,16 @@ h2 { margin: 0; font: 600 clamp(2.6rem, 5vw, 5.3rem)/.9 var(--display); letter-s
 .journal-card-dark h3 { max-width: 180px; margin-bottom: 28px; font-size: 2rem; line-height: 1; }
 .journal-mark { align-self: flex-start; margin-bottom: auto; font: 700 1.4rem var(--display); letter-spacing: -.08em; }
 .light-link { color: var(--white); }
+.shipping-section { display: grid; grid-template-columns: .9fr 1.1fr; gap: 9vw; padding: 105px 12vw; background: var(--blue); color: var(--white); }
+.shipping-section .section-kicker { color: var(--orange); }
+.shipping-section h2 { font-size: clamp(3rem, 6vw, 6rem); }
+.shipping-section h2 em { color: var(--orange); }
+.shipping-details { max-width: 540px; }
+.shipping-lede { margin: 0 0 42px; color: rgba(255,253,248,.86); font-size: 1rem; line-height: 1.7; }
+.shipping-rule { display: grid; grid-template-columns: 38px 1fr; gap: 14px; padding: 18px 0; border-top: 1px solid rgba(255,253,248,.28); }
+.shipping-rule span { color: var(--orange); font: 600 .72rem var(--display); }
+.shipping-rule h3 { margin: 0 0 5px; font: 600 1rem var(--display); }
+.shipping-rule p { margin: 0; color: rgba(255,253,248,.7); font-size: .82rem; line-height: 1.55; }
 .newsletter-section { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; padding: 90px 12vw; background: var(--white); }
 .newsletter-section h2 { font-size: clamp(3rem, 6vw, 6rem); }
 .newsletter-form { display: flex; flex-direction: column; justify-content: center; }
@@ -170,6 +180,8 @@ h2 { margin: 0; font: 600 clamp(2.6rem, 5vw, 5.3rem)/.9 var(--display); letter-s
   .journal-grid { grid-template-columns: 1fr; gap: 40px; }
   .journal-card img { height: 410px; }
   .journal-card-dark { min-height: 350px; }
+  .shipping-section { display: block; padding: 75px 20px; }
+  .shipping-details { margin-top: 45px; }
   .newsletter-section { display: block; padding: 70px 20px; }
   .newsletter-form { margin-top: 45px; }
   .site-footer { display: block; padding: 30px 20px; }
