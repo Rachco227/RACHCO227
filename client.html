@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Portail client RACHCO227 : suivre une commande, consulter ses colis et contacter l'équipe." />
+  <link rel="canonical" href="https://rachco227.github.io/RACHCO227/client.html" />
+  <title>RACHCO227 — Portail client</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="client.css" />
+</head>
+<body>
+  <!--
+  THESIS: Le portail client transforme le suivi d'un colis en une conversation claire, pas en un tableau de gestion.
+  OWN-WORLD: Bleu encre, bleu électrique et blanc cassé, avec une ligne de trajet lumineuse et des surfaces éditoriales nettes.
+  STORY: Le client comprend où est son colis, ce qui arrive ensuite et comment agir en quelques secondes.
+  FIRST VIEWPORT: Navigation légère, titre direct et suivi de commande centré dès l'arrivée; l'action principale est le champ de référence.
+  FORM: Portail de suivi opérationnel, staging "route-first", construit comme une vue publique distincte de l'administration.
+  -->
+  <header class="client-header">
+    <a class="client-brand" href="client.html">RACHCO<span>227</span></a>
+    <nav aria-label="Navigation client">
+      <a class="nav-current" href="#tracking">Suivre un colis</a>
+      <a href="#orders">Mes commandes</a>
+      <a href="#help">Aide</a>
+    </nav>
+    <div class="header-actions">
+      <a class="admin-link" href="index.html">Espace administrateur ↗</a>
+      <a class="call-link" href="tel:00916263730769">☎ Appeler</a>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="client-hero" id="tracking">
+      <div class="hero-copy">
+        <p class="eyebrow">ESPACE CLIENT RACHCO227</p>
+        <h1>Votre colis,<br /><em>sans détour.</em></h1>
+        <p class="hero-lede">Suivez vos commandes et gardez une vue claire sur chaque étape de la livraison en Afrique de l'Ouest.</p>
+        <div class="service-note"><span class="live-dot"></span><span><strong>Service client disponible</strong><small>Du lundi au samedi · 08:00 — 18:00</small></span></div>
+      </div>
+      <div class="tracking-console">
+        <div class="console-top"><span>Suivi de commande</span><span class="secure">● Mis à jour en direct</span></div>
+        <form id="tracking-form">
+          <label for="tracking-number">Numéro de suivi</label>
+          <div class="tracking-input"><span>#</span><input id="tracking-number" name="tracking" value="R227-1048" required autocomplete="off" /><button type="submit">Suivre <span>→</span></button></div>
+          <p class="form-hint">Exemple : R227-1048 · indiqué dans votre confirmation de commande</p>
+          <p class="tracking-message" id="tracking-message" role="status"></p>
+        </form>
+        <div class="route-preview"><div><span class="route-label">Départ</span><strong>Dakar, Sénégal</strong></div><span class="route-line"><i></i><b>✦</b><i></i></span><div class="route-end"><span class="route-label">Destination</span><strong>Abidjan, Côte d’Ivoire</strong></div></div>
+      </div>
+    </section>
+
+    <section class="order-section" id="orders">
+      <div class="section-heading"><div><p class="eyebrow">VOTRE ACTIVITÉ</p><h2>Commandes récentes</h2></div><a class="underlink" href="#help">Besoin d'aide ? <span>→</span></a></div>
+      <div class="order-layout">
+        <article class="featured-order">
+          <div class="order-top"><div><span class="order-number">COMMANDE #1048</span><h3>En livraison</h3></div><span class="status-pill">Arrive bientôt</span></div>
+          <div class="progress-track"><span></span></div>
+          <div class="progress-labels"><span>Pris en charge</span><span>En transit</span><span>Livré</span></div>
+          <div class="order-destination"><div class="destination-icon">↗</div><div><span>Destination</span><strong>Amina Diop · Abidjan, Côte d’Ivoire</strong></div><time>24 sept.</time></div>
+          <button class="details-button" data-tracking="R227-1048">Voir le détail du suivi <span>→</span></button>
+        </article>
+        <div class="order-list">
+          <article class="mini-order"><div class="mini-icon delivered">✓</div><div><span>COMMANDE #1046</span><strong>Livrée à Bamako</strong><small>18 sept. 2026</small></div><b>45 000 FCFA</b></article>
+          <article class="mini-order"><div class="mini-icon preparing">◷</div><div><span>COMMANDE #1047</span><strong>Préparation en cours</strong><small>Abidjan, Côte d'Ivoire</small></div><b>18 000 FCFA</b></article>
+          <a class="all-orders" href="#help">Consulter toutes mes commandes <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="help-section" id="help">
+      <div><p class="eyebrow">UNE QUESTION ?</p><h2>On reste à vos côtés.</h2><p>Une adresse à modifier, un colis à retrouver ou une question sur le paiement ? Notre équipe vous répond directement.</p></div>
+      <div class="help-actions"><a class="primary-action" href="https://wa.me/916263730769">Écrire sur WhatsApp <span>↗</span></a><a class="secondary-action" href="tel:00916263730769">Appeler le 00916263730769</a></div>
+    </section>
+  </main>
+  <footer><span>© 2026 RACHCO227</span><span>Dépôt principal · Dakar, Sénégal</span><a href="index.html">Accès administrateur ↗</a></footer>
+  <script src="client.js"></script>
+</body>
+</html>
