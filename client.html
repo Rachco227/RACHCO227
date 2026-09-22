@@ -27,6 +27,7 @@
       <a href="#help">Aide</a>
     </nav>
     <div class="header-actions">
+      <button class="account-button" id="open-account-modal">Créer un compte</button>
       <a class="admin-link" href="index.html">Espace administrateur ↗</a>
       <a class="call-link" href="tel:00916263730769">☎ Appeler</a>
       <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
@@ -53,6 +54,19 @@
       </div>
     </section>
 
+    <section class="live-tracking-section" id="live-tracking">
+      <div class="section-heading"><div><p class="eyebrow">SUIVI EN TEMPS RÉEL</p><h2>Le trajet de votre colis</h2></div><span class="live-badge"><i></i> Actualisation automatique</span></div>
+      <div class="live-tracking-panel">
+        <div class="live-panel-top"><div><span class="order-number">NUMÉRO DE SUIVI</span><strong id="live-tracking-number">R227-1048</strong></div><div class="live-eta"><span>Livraison estimée</span><strong>24 septembre · 16:00</strong></div></div>
+        <div class="tracking-timeline">
+          <div class="timeline-step complete"><span>✓</span><div><strong>Colis pris en charge</strong><small>Dakar · 22 sept. à 09:40</small></div></div>
+          <div class="timeline-step current"><span>↗</span><div><strong>En route vers Abidjan</strong><small id="live-location">Dernière position : Thiès · il y a 4 min</small></div></div>
+          <div class="timeline-step"><span>3</span><div><strong>Livraison au destinataire</strong><small>Prochaine étape</small></div></div>
+        </div>
+        <div class="live-panel-footer"><span><i class="pulse-dot"></i> Position synchronisée <b id="sync-time">à l'instant</b></span><button class="refresh-tracking" id="refresh-tracking">Actualiser maintenant ↻</button></div>
+      </div>
+    </section>
+
     <section class="order-section" id="orders">
       <div class="section-heading"><div><p class="eyebrow">VOTRE ACTIVITÉ</p><h2>Commandes récentes</h2></div><a class="underlink" href="#help">Besoin d'aide ? <span>→</span></a></div>
       <div class="order-layout">
@@ -76,6 +90,18 @@
       <div class="help-actions"><a class="primary-action" href="https://wa.me/916263730769">Écrire sur WhatsApp <span>↗</span></a><a class="secondary-action" href="tel:00916263730769">Appeler le 00916263730769</a></div>
     </section>
   </main>
+  <dialog id="account-modal">
+    <form method="dialog" id="account-form">
+      <div class="account-modal-heading"><div><p class="eyebrow">ESPACE PERSONNEL</p><h2>Créer votre compte</h2></div><button class="close-account" aria-label="Fermer">×</button></div>
+      <p class="account-copy">Enregistrez vos coordonnées pour retrouver vos commandes et recevoir les mises à jour de livraison.</p>
+      <label>Nom complet<input name="name" required autocomplete="name" placeholder="Ex. Amina Diop" /></label>
+      <label>Adresse email<input name="email" type="email" required autocomplete="email" placeholder="vous@email.com" /></label>
+      <label>Mot de passe<input name="password" type="password" minlength="8" required autocomplete="new-password" placeholder="8 caractères minimum" /></label>
+      <label class="consent"><input type="checkbox" required /> J'accepte de recevoir les mises à jour de mes commandes.</label>
+      <button class="primary-action account-submit" type="submit">Créer mon compte <span>→</span></button>
+      <p class="account-message" id="account-message" role="status"></p>
+    </form>
+  </dialog>
   <footer><span>© 2026 RACHCO227</span><span>Dépôt principal · Dakar, Sénégal</span><a href="index.html">Accès administrateur ↗</a></footer>
   <script src="client.js"></script>
 </body>
