@@ -44,6 +44,16 @@ document.querySelectorAll("[data-tracking]").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".coverage-place").forEach((place) => {
+  place.addEventListener("click", () => {
+    document.querySelectorAll(".coverage-place").forEach((item) => item.classList.remove("active"));
+    place.classList.add("active");
+    document.querySelector("#coverage-selection strong").textContent = place.dataset.destination;
+    document.querySelector("#account-modal").showModal();
+    document.querySelector("#account-form [name='destination']").value = place.dataset.destination;
+  });
+});
+
 document.querySelector(".menu-toggle").addEventListener("click", () => {
   document.querySelector(".client-header").classList.toggle("menu-open");
 });
@@ -53,8 +63,8 @@ document.querySelector(".close-account").addEventListener("click", () => account
 document.querySelector("#account-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const form = new FormData(event.target);
-  localStorage.setItem("rachco227-client", JSON.stringify({ name: form.get("name"), email: form.get("email") }));
-  accountMessage.textContent = `Compte créé pour ${form.get("name")}. Vos suivis seront associés à cette adresse.`;
+  localStorage.setItem("rachco227-client", JSON.stringify({ name: form.get("name"), email: form.get("email"), destination: form.get("destination") }));
+  accountMessage.textContent = `Compte créé pour ${form.get("name")} · livraison vers ${form.get("destination")}.`;
   accountMessage.className = "account-message success";
   event.target.reset();
 });

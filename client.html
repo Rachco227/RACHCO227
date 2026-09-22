@@ -67,6 +67,18 @@
       </div>
     </section>
 
+    <section class="coverage-section" id="coverage">
+      <div class="section-heading"><div><p class="eyebrow">LIVRAISON RÉGIONALE</p><h2>Nos destinations</h2></div><span class="coverage-note">5 zones disponibles</span></div>
+      <div class="coverage-grid">
+        <button class="coverage-place active" data-destination="Dakar, Sénégal"><span class="place-mark">SN</span><span><strong>Sénégal</strong><small>Dakar · Thiès · Mbour</small></span><b>✓</b></button>
+        <button class="coverage-place" data-destination="Niamey, Niger"><span class="place-mark">NE</span><span><strong>Niger</strong><small>Niamey · Maradi</small></span><b>＋</b></button>
+        <button class="coverage-place" data-destination="Abidjan, Côte d’Ivoire"><span class="place-mark">CI</span><span><strong>Côte d’Ivoire</strong><small>Abidjan · Bouaké</small></span><b>＋</b></button>
+        <button class="coverage-place" data-destination="Lomé, Togo"><span class="place-mark">TG</span><span><strong>Togo</strong><small>Lomé · Kara</small></span><b>＋</b></button>
+        <button class="coverage-place" data-destination="Accra, Ghana"><span class="place-mark">GH</span><span><strong>Ghana</strong><small>Accra · Kumasi</small></span><b>＋</b></button>
+      </div>
+      <p class="coverage-selection" id="coverage-selection">Destination sélectionnée : <strong>Dakar, Sénégal</strong></p>
+    </section>
+
     <section class="order-section" id="orders">
       <div class="section-heading"><div><p class="eyebrow">VOTRE ACTIVITÉ</p><h2>Commandes récentes</h2></div><a class="underlink" href="#help">Besoin d'aide ? <span>→</span></a></div>
       <div class="order-layout">
@@ -96,6 +108,7 @@
       <p class="account-copy">Enregistrez vos coordonnées pour retrouver vos commandes et recevoir les mises à jour de livraison.</p>
       <label>Nom complet<input name="name" required autocomplete="name" placeholder="Ex. Amina Diop" /></label>
       <label>Adresse email<input name="email" type="email" required autocomplete="email" placeholder="vous@email.com" /></label>
+      <label>Destination de livraison<select name="destination" required><option value="Dakar, Sénégal">Dakar, Sénégal</option><option value="Niamey, Niger">Niamey, Niger</option><option value="Abidjan, Côte d’Ivoire">Abidjan, Côte d’Ivoire</option><option value="Lomé, Togo">Lomé, Togo</option><option value="Accra, Ghana">Accra, Ghana</option></select></label>
       <label>Mot de passe<input name="password" type="password" minlength="8" required autocomplete="new-password" placeholder="8 caractères minimum" /></label>
       <label class="consent"><input type="checkbox" required /> J'accepte de recevoir les mises à jour de mes commandes.</label>
       <button class="primary-action account-submit" type="submit">Créer mon compte <span>→</span></button>
