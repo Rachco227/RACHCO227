@@ -58,6 +58,13 @@ document.querySelector(".menu-toggle").addEventListener("click", () => {
   document.querySelector(".client-header").classList.toggle("menu-open");
 });
 
+const scannedTracking = new URLSearchParams(window.location.search).get("tracking");
+if (scannedTracking) {
+  const trackingReference = scannedTracking.replace("RACHCO-", "R227-");
+  trackingInput.value = trackingReference;
+  showTracking(trackingReference);
+}
+
 document.querySelector("#open-account-modal").addEventListener("click", () => accountModal.showModal());
 document.querySelector(".close-account").addEventListener("click", () => accountModal.close());
 document.querySelector("#account-form").addEventListener("submit", (event) => {

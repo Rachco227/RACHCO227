@@ -19,10 +19,10 @@ const clients = [
   { name: "Jean Kouassi", email: "jean.k@email.com", zone: "Lomé, Togo", order: "15 sept. 2026", status: "active", label: "Actif" }
 ];
 const orders = [
-  { id: "#1048", client: "Amina Diop", destination: "Dakar, Sénégal", amount: "32 500 FCFA", status: "shipping", label: "En livraison" },
-  { id: "#1047", client: "Koffi Mensah", destination: "Abidjan, Côte d’Ivoire", amount: "18 000 FCFA", status: "preparing", label: "À préparer" },
-  { id: "#1046", client: "Mariam Traoré", destination: "Bamako, Mali", amount: "45 000 FCFA", status: "delivered", label: "Livrée" },
-  { id: "#1045", client: "Jean Kouassi", destination: "Lomé, Togo", amount: "26 500 FCFA", status: "shipping", label: "En livraison" }
+  { id: "#1048", qr: "RACHCO-1048", client: "Amina Diop", destination: "Dakar, Sénégal", amount: "32 500 FCFA", status: "shipping", label: "En livraison" },
+  { id: "#1047", qr: "RACHCO-1047", client: "Koffi Mensah", destination: "Abidjan, Côte d’Ivoire", amount: "18 000 FCFA", status: "preparing", label: "À préparer" },
+  { id: "#1046", qr: "RACHCO-1046", client: "Mariam Traoré", destination: "Bamako, Mali", amount: "45 000 FCFA", status: "delivered", label: "Livrée" },
+  { id: "#1045", qr: "RACHCO-1045", client: "Jean Kouassi", destination: "Lomé, Togo", amount: "26 500 FCFA", status: "shipping", label: "En livraison" }
 ];
 const table = document.querySelector("#stock-table");
 function renderRows() {
@@ -48,13 +48,16 @@ function renderOrders() {
   const query = document.querySelector("#order-search").value.toLowerCase();
   const filter = document.querySelector("#order-filter").value;
   const result = orders.filter((order) => (filter === "all" || order.status === filter) && `${order.id} ${order.client} ${order.destination}`.toLowerCase().includes(query));
-  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu edit-destination" data-order="${order.id}" aria-label="Modifier la destination de ${order.id}">⌖</button></td></tr>`).join("");
+  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu show-qr" data-order="${order.id}" aria-label="Afficher le QR de ${order.id}">▦</button><button class="row-menu edit-destination" data-order="${order.id}" aria-label="Modifier la destination de ${order.id}">⌖</button></td></tr>`).join("");
   document.querySelector("#order-result-count").textContent = `${result.length} commande${result.length > 1 ? "s" : ""}`;
   document.querySelectorAll(".edit-destination").forEach((button) => {
     button.addEventListener("click", () => {
       destinationModal.showModal();
       destinationForm.elements.order.value = button.dataset.order;
     });
+  });
+  document.querySelectorAll(".show-qr").forEach((button) => {
+    button.addEventListener("click", () => showQrForOrder(button.dataset.order));
   });
 }
 document.querySelector("#order-search").addEventListener("input", renderOrders);
@@ -120,6 +123,22 @@ destinationForm.addEventListener("submit", (event) => {
   renderOrders();
   destinationModal.close();
 });
+const qrModal = document.querySelector("#qr-modal");
+function showQrForOrder(orderId) {
+  const order = orders.find((item) => item.id === orderId);
+  if (!order) return;
+  document.querySelector("#qr-order-number").textContent = `Commande ${order.id}`;
+  document.querySelector("#qr-code-label").textContent = order.qr;
+  document.querySelector("#qr-destination-label").textContent = order.destination;
+  qrModal.showModal();
+  if (window.QRCode) {
+    QRCode.toCanvas(document.querySelector("#qr-canvas"), `https://rachco227.github.io/RACHCO227/client.html?tracking=${order.qr}`, { width: 220, margin: 2 }, (error) => {
+      if (error) console.error("QR code generation failed", error);
+    });
+  }
+}
+document.querySelector("#close-qr-modal").addEventListener("click", () => qrModal.close());
+document.querySelector("#print-qr").addEventListener("click", () => window.print());
 const campaignModal = document.querySelector("#campaign-modal");
 document.querySelector("#open-campaign-modal").addEventListener("click", () => campaignModal.showModal());
 document.querySelector("#campaign-form .close-modal").addEventListener("click", () => campaignModal.close());
