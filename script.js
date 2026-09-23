@@ -48,8 +48,14 @@ function renderOrders() {
   const query = document.querySelector("#order-search").value.toLowerCase();
   const filter = document.querySelector("#order-filter").value;
   const result = orders.filter((order) => (filter === "all" || order.status === filter) && `${order.id} ${order.client} ${order.destination}`.toLowerCase().includes(query));
-  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu" aria-label="Options ${order.id}">•••</button></td></tr>`).join("");
+  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu edit-destination" data-order="${order.id}" aria-label="Modifier la destination de ${order.id}">⌖</button></td></tr>`).join("");
   document.querySelector("#order-result-count").textContent = `${result.length} commande${result.length > 1 ? "s" : ""}`;
+  document.querySelectorAll(".edit-destination").forEach((button) => {
+    button.addEventListener("click", () => {
+      destinationModal.showModal();
+      destinationForm.elements.order.value = button.dataset.order;
+    });
+  });
 }
 document.querySelector("#order-search").addEventListener("input", renderOrders);
 document.querySelector("#order-filter").addEventListener("change", renderOrders);
@@ -97,6 +103,22 @@ document.querySelector("#shipping-form").addEventListener("submit", (event) => {
   document.querySelector(".warehouse-status small").textContent = `Envoi depuis · ${values.get("city")}`;
   document.querySelector(".modal-copy").textContent = `Adresse enregistrée : ${address}`;
   shippingModal.close();
+});
+const destinationModal = document.querySelector("#destination-modal");
+const destinationForm = document.querySelector("#destination-form");
+document.querySelector("#open-destination-modal").addEventListener("click", () => destinationModal.showModal());
+document.querySelector("#destination-form .close-modal").addEventListener("click", () => destinationModal.close());
+destinationForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const values = new FormData(destinationForm);
+  const order = orders.find((item) => item.id === values.get("order"));
+  if (!order) return;
+  order.destination = `${values.get("city")}, ${values.get("country")}`;
+  document.querySelector("#destination-summary-order").textContent = `Commande ${order.id}`;
+  document.querySelector("#destination-summary-place").textContent = order.destination;
+  document.querySelector("#destination-summary-address").textContent = values.get("address");
+  renderOrders();
+  destinationModal.close();
 });
 const campaignModal = document.querySelector("#campaign-modal");
 document.querySelector("#open-campaign-modal").addEventListener("click", () => campaignModal.showModal());
