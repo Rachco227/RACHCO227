@@ -1,0 +1,397 @@
+const rows = [
+  { product: "Veste Signal", ref: "R227-VS-01", category: "vêtements", qty: 126, status: "good", label: "En stock" },
+  { product: "Hoodie Transit", ref: "R227-HT-02", category: "vêtements", qty: 4, status: "low", label: "Stock faible" },
+  { product: "Cargo 227", ref: "R227-CG-03", category: "vêtements", qty: 78, status: "good", label: "En stock" },
+  { product: "T-shirt Ligne", ref: "R227-TL-04", category: "vêtements", qty: 0, status: "out", label: "Rupture" },
+  { product: "Bonnet N°04", ref: "R227-BN-05", category: "accessoires", qty: 34, status: "good", label: "En stock" },
+  { product: "Tote Unité", ref: "R227-TU-06", category: "accessoires", qty: 18, status: "low", label: "Stock faible" }
+];
+const activities = [
+  ["Entrée enregistrée", "84 × Hoodie Transit · Atelier Textile", "09:40", ""],
+  ["Sortie de stock", "12 × Veste Signal · Commande #1048", "08:55", "orange"],
+  ["Entrée enregistrée", "40 × Tote Unité · Studio Dakar", "Hier", ""],
+  ["Inventaire ajusté", "Bonnet N°04 · +6 unités", "Hier", "orange"]
+];
+const clients = [
+  { name: "Amina Diop", email: "amina.diop@email.com", zone: "Dakar, Sénégal", order: "Aujourd’hui", status: "active", label: "Actif" },
+  { name: "Koffi Mensah", email: "koffi.m@email.com", zone: "Abidjan, Côte d’Ivoire", order: "Hier", status: "active", label: "Actif" },
+  { name: "Mariam Traoré", email: "mariam.t@email.com", zone: "Bamako, Mali", order: "18 sept. 2026", status: "pending", label: "À confirmer" },
+  { name: "Jean Kouassi", email: "jean.k@email.com", zone: "Lomé, Togo", order: "15 sept. 2026", status: "active", label: "Actif" }
+];
+const orders = [
+  { id: "#1048", qr: "RACHCO-1048", client: "Amina Diop", destination: "Dakar, Sénégal", amount: "32 500 FCFA", status: "shipping", label: "En livraison" },
+  { id: "#1047", qr: "RACHCO-1047", client: "Koffi Mensah", destination: "Abidjan, Côte d’Ivoire", amount: "18 000 FCFA", status: "preparing", label: "À préparer" },
+  { id: "#1046", qr: "RACHCO-1046", client: "Mariam Traoré", destination: "Bamako, Mali", amount: "45 000 FCFA", status: "delivered", label: "Livrée" },
+  { id: "#1045", qr: "RACHCO-1045", client: "Jean Kouassi", destination: "Lomé, Togo", amount: "26 500 FCFA", status: "shipping", label: "En livraison" }
+];
+const accountingEntries = [
+  { reference: "PAY-1048", order: "#1048", client: "Amina Diop", amount: 32500, recordedAt: "Il y a 12 min", status: "confirmed", statusLabel: "Confirmé" },
+  { reference: "PAY-1047", order: "#1047", client: "Koffi Mensah", amount: 18000, recordedAt: "Il y a 38 min", status: "confirmed", statusLabel: "Confirmé" }
+];
+const agentStorageKey = "rachco227-shipping-agents";
+const agentTable = document.querySelector("#agent-table");
+const agentMessage = document.querySelector("#agent-message");
+const agentFormMessage = document.querySelector("#agent-form-message");
+let agents = [];
+let agentStorageReady = true;
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character]);
+}
+
+try {
+  const storedAgents = window.localStorage.getItem(agentStorageKey);
+  if (storedAgents !== null) {
+    const parsedAgents = JSON.parse(storedAgents);
+    if (!Array.isArray(parsedAgents) || parsedAgents.some((agent) =>
+      !agent || typeof agent.id !== "string" || typeof agent.name !== "string" ||
+      typeof agent.email !== "string" || typeof agent.phone !== "string" ||
+      typeof agent.zone !== "string" || !["active", "suspended"].includes(agent.status) ||
+      (agent.mission !== undefined && !["delivery", "pickup"].includes(agent.mission)) ||
+      (agent.pickupInfo !== undefined && typeof agent.pickupInfo !== "string")
+    )) {
+      throw new Error("Les données des agents sont invalides.");
+    }
+    agents = parsedAgents;
+  }
+} catch (error) {
+  agentStorageReady = false;
+  console.error("Impossible de charger les profils des agents d’expédition.", error);
+}
+
+function renderAgents() {
+  const activeAgents = agents.filter((agent) => agent.status === "active").length;
+  const revokeAgentsButton = document.querySelector("#revoke-all-agents");
+  revokeAgentsButton.disabled = !agentStorageReady || activeAgents === 0;
+  revokeAgentsButton.textContent = activeAgents
+    ? `Suspendre tous les agents (${activeAgents})`
+    : "Aucun agent actif à suspendre";
+  agentTable.innerHTML = agents.length
+    ? agents.map((agent) => {
+      const active = agent.status === "active";
+      const mission = agent.mission === "pickup" ? "Retrait de colis" : "Livraison de colis";
+      const pickupInfo = agent.mission === "pickup" && agent.pickupInfo ? `<small class="agent-pickup-info">${escapeHtml(agent.pickupInfo)}</small>` : "";
+      return `<tr><td><div class="client-name"><span class="client-avatar">${escapeHtml(agent.name.split(/\s+/).map((part) => part[0] || "").join("").slice(0, 2))}</span>${escapeHtml(agent.name)}</div></td><td class="client-email">${escapeHtml(agent.email)}</td><td>${escapeHtml(agent.phone)}</td><td>${escapeHtml(agent.zone)}</td><td><span class="agent-mission">${mission}</span>${pickupInfo}</td><td><span class="client-status ${active ? "active" : "pending"}">${active ? "Actif" : "Suspendu"}</span></td><td><button class="small-button toggle-agent" type="button" data-agent-id="${escapeHtml(agent.id)}">${active ? "Suspendre" : "Réactiver"}</button></td></tr>`;
+    }).join("")
+    : `<tr><td colspan="7" class="agents-empty">Aucun agent enregistré. Ajoutez un profil pour commencer.</td></tr>`;
+  document.querySelector("#agent-result-count").textContent = `${agents.length} agent${agents.length === 1 ? "" : "s"}`;
+  document.querySelector("#nav-agent-count").textContent = agents.length;
+}
+
+function saveAgents(nextAgents) {
+  if (!agentStorageReady) {
+    agentMessage.textContent = "Les profils n’ont pas pu être chargés. Rechargez la page avant toute modification.";
+    return false;
+  }
+  try {
+    window.localStorage.setItem(agentStorageKey, JSON.stringify(nextAgents));
+  } catch (error) {
+    console.error("Impossible d’enregistrer les profils des agents d’expédition.", error);
+    agentMessage.textContent = "Enregistrement impossible sur cet appareil. Vérifiez l’espace disponible et réessayez.";
+    return false;
+  }
+  agents = nextAgents;
+  agentMessage.textContent = "Modifications enregistrées sur cet appareil.";
+  renderAgents();
+  return true;
+}
+
+const agentModal = document.querySelector("#agent-modal");
+const agentForm = document.querySelector("#agent-form");
+const agentMission = document.querySelector("#agent-mission");
+const pickupDetailsField = document.querySelector("#agent-pickup-details");
+const pickupInfoField = agentForm.elements.pickupInfo;
+function updatePickupFields() {
+  const isPickupAgent = agentMission.value === "pickup";
+  pickupDetailsField.hidden = !isPickupAgent;
+  pickupInfoField.required = isPickupAgent;
+}
+agentMission.addEventListener("change", updatePickupFields);
+document.querySelector("#open-agent-modal").addEventListener("click", () => {
+  agentForm.reset();
+  agentFormMessage.textContent = "";
+  updatePickupFields();
+  agentModal.showModal();
+});
+agentForm.querySelector(".close-modal").addEventListener("click", () => agentModal.close());
+agentForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!agentStorageReady) {
+    agentFormMessage.textContent = "Impossible de charger les profils existants. Rechargez la page avant de réessayer.";
+    return;
+  }
+  const form = new FormData(agentForm);
+  const name = String(form.get("name")).trim();
+  const email = String(form.get("email")).trim();
+  const phone = String(form.get("phone")).trim();
+  const zone = String(form.get("zone")).trim();
+  const mission = String(form.get("mission"));
+  const pickupInfo = String(form.get("pickupInfo")).trim();
+  if (![name, email, phone, zone].every(Boolean)) {
+    agentFormMessage.textContent = "Renseignez tous les champs pour enregistrer le profil.";
+    return;
+  }
+  if (!["delivery", "pickup"].includes(mission) || (mission === "pickup" && !pickupInfo)) {
+    agentFormMessage.textContent = mission === "pickup"
+      ? "Ajoutez les informations de retrait pour cet agent."
+      : "Choisissez une mission valide pour cet agent.";
+    return;
+  }
+  if (agents.some((agent) => agent.email.toLowerCase() === email.toLowerCase())) {
+    agentFormMessage.textContent = "Un profil utilise déjà cette adresse email.";
+    return;
+  }
+  const agent = {
+    id: `agent-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    name,
+    email,
+    phone,
+    zone,
+    mission,
+    pickupInfo: mission === "pickup" ? pickupInfo : "",
+    status: "active"
+  };
+  if (saveAgents([agent, ...agents])) {
+    agentForm.reset();
+    agentModal.close();
+  }
+});
+agentTable.addEventListener("click", (event) => {
+  const button = event.target.closest(".toggle-agent");
+  if (!button) return;
+  const nextAgents = agents.map((agent) => agent.id === button.dataset.agentId
+    ? { ...agent, status: agent.status === "active" ? "suspended" : "active" }
+    : agent);
+  saveAgents(nextAgents);
+});
+document.querySelector("#revoke-all-agents").addEventListener("click", () => {
+  const activeAgents = agents.filter((agent) => agent.status === "active").length;
+  if (!agentStorageReady || activeAgents === 0) return;
+  const confirmed = window.confirm(
+    `Suspendre les ${activeAgents} profil${activeAgents > 1 ? "s" : ""} agent actif${activeAgents > 1 ? "s" : ""} sur cet appareil ? Les comptes de connexion réels ne seront pas révoqués.`
+  );
+  if (!confirmed) return;
+  const nextAgents = agents.map((agent) => agent.status === "active"
+    ? { ...agent, status: "suspended" }
+    : agent);
+  if (saveAgents(nextAgents)) {
+    agentMessage.textContent = `${activeAgents} profil${activeAgents > 1 ? "s" : ""} suspendu${activeAgents > 1 ? "s" : ""} sur cet appareil. Aucun compte de connexion réel n’a été révoqué.`;
+  }
+});
+
+const table = document.querySelector("#stock-table");
+function renderRows() {
+  const query = document.querySelector("#stock-search").value.toLowerCase();
+  const category = document.querySelector("#category-filter").value;
+  const result = rows.filter((row) => (category === "all" || row.category === category) && `${row.product} ${row.ref}`.toLowerCase().includes(query));
+  table.innerHTML = result.map((row) => `<tr><td><div class="stock-product"><span class="product-square">${row.product.slice(0, 1)}</span>${row.product}</div></td><td>${row.ref}</td><td>${row.category[0].toUpperCase() + row.category.slice(1)}</td><td><strong>${row.qty}</strong></td><td><span class="status ${row.status}">${row.label}</span></td><td><button class="row-menu" aria-label="Options pour ${row.product}">•••</button></td></tr>`).join("");
+  document.querySelector("#result-count").textContent = `${result.length} références`;
+}
+document.querySelector("#stock-search").addEventListener("input", renderRows);
+document.querySelector("#category-filter").addEventListener("change", renderRows);
+document.querySelector("#activity-list").innerHTML = activities.map(([title, detail, time, tone]) => `<div class="activity"><span class="activity-icon ${tone}">${tone ? "↗" : "＋"}</span><div><strong>${title}</strong><p>${detail}</p></div><time>${time}</time></div>`).join("");
+function renderClients() {
+  const query = document.querySelector("#client-search").value.toLowerCase();
+  const filter = document.querySelector("#client-filter").value;
+  const result = clients.filter((client) => (filter === "all" || client.status === filter) && `${client.name} ${client.email} ${client.zone}`.toLowerCase().includes(query));
+  document.querySelector("#client-table").innerHTML = result.map((client) => `<tr><td><div class="client-name"><span class="client-avatar">${client.name.split(" ").map((part) => part[0]).join("")}</span>${client.name}</div></td><td class="client-email">${client.email}</td><td>${client.zone}</td><td>${client.order}</td><td><span class="client-status ${client.status}">${client.label}</span></td><td><button class="row-menu" aria-label="Options pour ${client.name}">•••</button></td></tr>`).join("");
+  document.querySelector("#client-result-count").textContent = `${result.length} client${result.length > 1 ? "s" : ""}`;
+}
+document.querySelector("#client-search").addEventListener("input", renderClients);
+document.querySelector("#client-filter").addEventListener("change", renderClients);
+function renderOrders() {
+  const query = document.querySelector("#order-search").value.toLowerCase();
+  const filter = document.querySelector("#order-filter").value;
+  const result = orders.filter((order) => (filter === "all" || order.status === filter) && `${order.id} ${order.client} ${order.destination}`.toLowerCase().includes(query));
+  document.querySelector("#order-table").innerHTML = result.map((order) => `<tr><td><strong>${order.id}</strong></td><td>${order.client}</td><td class="order-destination">${order.destination}</td><td>${order.amount}</td><td><span class="order-status ${order.status}">${order.label}</span></td><td><button class="row-menu show-qr" data-order="${order.id}" aria-label="Afficher le QR de ${order.id}">▦</button><button class="row-menu edit-destination" data-order="${order.id}" aria-label="Modifier la destination de ${order.id}">⌖</button></td></tr>`).join("");
+  document.querySelector("#order-result-count").textContent = `${result.length} commande${result.length > 1 ? "s" : ""}`;
+  document.querySelectorAll(".edit-destination").forEach((button) => {
+    button.addEventListener("click", () => {
+      destinationModal.showModal();
+      destinationForm.elements.order.value = button.dataset.order;
+    });
+  });
+  document.querySelectorAll(".show-qr").forEach((button) => {
+    button.addEventListener("click", () => showQrForOrder(button.dataset.order));
+  });
+  renderQrManager();
+}
+document.querySelector("#order-search").addEventListener("input", renderOrders);
+document.querySelector("#order-filter").addEventListener("change", renderOrders);
+const qrTable = document.querySelector("#qr-table");
+function renderQrManager() {
+  const query = document.querySelector("#qr-search").value.trim().toLowerCase();
+  const filter = document.querySelector("#qr-status-filter").value;
+  const result = orders.filter((order) => (filter === "all" || order.status === filter) &&
+    `${order.id} ${order.qr} ${order.client} ${order.destination}`.toLowerCase().includes(query));
+  qrTable.innerHTML = result.length
+    ? result.map((order) => `<tr><td><strong>${escapeHtml(order.id)}</strong></td><td>${escapeHtml(order.client)}</td><td><span class="qr-tracking-number">${escapeHtml(order.qr)}</span></td><td class="order-destination">${escapeHtml(order.destination)}</td><td><span class="order-status ${escapeHtml(order.status)}">${escapeHtml(order.label)}</span></td><td><button class="small-button manage-qr" type="button" data-order="${escapeHtml(order.id)}">Afficher / imprimer</button></td></tr>`).join("")
+    : `<tr><td colspan="6" class="qr-empty">Aucun colis ne correspond à cette recherche.</td></tr>`;
+  document.querySelector("#qr-result-count").textContent = `${result.length} colis avec QR code`;
+}
+document.querySelector("#qr-search").addEventListener("input", renderQrManager);
+document.querySelector("#qr-status-filter").addEventListener("change", renderQrManager);
+qrTable.addEventListener("click", (event) => {
+  const button = event.target.closest(".manage-qr");
+  if (button) showQrForOrder(button.dataset.order);
+});
+const modal = document.querySelector("#stock-modal");
+document.querySelector("#open-stock-modal").addEventListener("click", () => modal.showModal());
+document.querySelector(".close-modal").addEventListener("click", () => modal.close());
+document.querySelector("#stock-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  rows.unshift({ product: form.get("product"), ref: form.get("reference"), category: form.get("category").toLowerCase(), qty: Number(form.get("quantity")), status: "good", label: "En stock" });
+  renderRows();
+  document.querySelector("#total-stock").textContent = "1 332";
+  modal.close();
+  event.target.reset();
+});
+const clientModal = document.querySelector("#client-modal");
+document.querySelector("#open-client-modal").addEventListener("click", () => clientModal.showModal());
+document.querySelector("#client-form .close-modal").addEventListener("click", () => clientModal.close());
+document.querySelector("#client-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  clients.unshift({ name: form.get("name"), email: form.get("email"), zone: form.get("zone"), order: "Aucune commande", status: "pending", label: "À confirmer" });
+  document.querySelector("#client-total").textContent = clients.length;
+  document.querySelector("#nav-client-count").textContent = clients.length;
+  renderClients();
+  clientModal.close();
+  event.target.reset();
+});
+const paymentModal = document.querySelector("#payment-modal");
+document.querySelector("#open-payment-modal").addEventListener("click", () => paymentModal.showModal());
+document.querySelector("#payment-form .close-modal").addEventListener("click", () => paymentModal.close());
+document.querySelector("#payment-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const account = new FormData(event.target).get("merchant");
+  document.querySelector(".merchant-number strong").textContent = account;
+  paymentModal.close();
+});
+const shippingModal = document.querySelector("#shipping-modal");
+document.querySelector("#settings-link").addEventListener("click", (event) => { event.preventDefault(); shippingModal.showModal(); });
+document.querySelector("#shipping-form .close-modal").addEventListener("click", () => shippingModal.close());
+document.querySelector("#shipping-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const values = new FormData(event.target);
+  const address = `${values.get("address")}, ${values.get("city")}, ${values.get("country")}`;
+  document.querySelector(".warehouse-status small").textContent = `Envoi depuis · ${values.get("city")}`;
+  document.querySelector(".modal-copy").textContent = `Adresse enregistrée : ${address}`;
+  shippingModal.close();
+});
+const destinationModal = document.querySelector("#destination-modal");
+const destinationForm = document.querySelector("#destination-form");
+document.querySelector("#open-destination-modal").addEventListener("click", () => destinationModal.showModal());
+document.querySelector("#destination-form .close-modal").addEventListener("click", () => destinationModal.close());
+destinationForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const values = new FormData(destinationForm);
+  const order = orders.find((item) => item.id === values.get("order"));
+  if (!order) return;
+  order.destination = `${values.get("city")}, ${values.get("country")}`;
+  document.querySelector("#destination-summary-order").textContent = `Commande ${order.id}`;
+  document.querySelector("#destination-summary-place").textContent = order.destination;
+  document.querySelector("#destination-summary-address").textContent = values.get("address");
+  renderOrders();
+  destinationModal.close();
+});
+const qrModal = document.querySelector("#qr-modal");
+function showQrForOrder(orderId) {
+  const order = orders.find((item) => item.id === orderId);
+  if (!order) return;
+  const qrCanvas = document.querySelector("#qr-canvas");
+  const qrMessage = document.querySelector("#qr-message");
+  const printButton = document.querySelector("#print-qr");
+  qrCanvas.getContext("2d").clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+  document.querySelector("#qr-order-number").textContent = `Commande ${order.id}`;
+  document.querySelector("#qr-code-label").textContent = order.qr;
+  document.querySelector("#qr-destination-label").textContent = order.destination;
+  qrMessage.textContent = "";
+  printButton.disabled = true;
+  qrModal.showModal();
+  if (typeof window.qrcode !== "function") {
+    qrMessage.textContent = "Génération indisponible. Vérifiez votre connexion puis rechargez la page.";
+    return;
+  }
+  try {
+    const qr = window.qrcode(0, "M");
+    qr.addData(`https://rachco227.github.io/RACHCO227/client.html?tracking=${encodeURIComponent(order.qr)}`);
+    qr.make();
+    const moduleCount = qr.getModuleCount();
+    const quietZone = 4;
+    const moduleSize = Math.floor(qrCanvas.width / (moduleCount + quietZone * 2));
+    const renderedSize = moduleCount * moduleSize;
+    const offset = Math.floor((qrCanvas.width - renderedSize) / 2);
+    const context = qrCanvas.getContext("2d");
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+    context.fillStyle = "#101d49";
+    for (let row = 0; row < moduleCount; row += 1) {
+      for (let column = 0; column < moduleCount; column += 1) {
+        if (qr.isDark(row, column)) {
+          context.fillRect(offset + column * moduleSize, offset + row * moduleSize, moduleSize, moduleSize);
+        }
+      }
+    }
+    qrMessage.textContent = "QR code prêt à imprimer.";
+    printButton.disabled = false;
+  } catch (error) {
+    console.error("QR code generation failed", error);
+    qrMessage.textContent = "Le QR code n’a pas pu être généré. Fermez puis réessayez.";
+  }
+}
+document.querySelector("#close-qr-modal").addEventListener("click", () => qrModal.close());
+document.querySelector("#print-qr").addEventListener("click", () => window.print());
+const campaignModal = document.querySelector("#campaign-modal");
+document.querySelector("#open-campaign-modal").addEventListener("click", () => campaignModal.showModal());
+document.querySelector("#campaign-form .close-modal").addEventListener("click", () => campaignModal.close());
+document.querySelector("#campaign-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const channel = form.get("channel");
+  const notice = document.querySelector(".advertising-panel .panel-heading p:last-child");
+  notice.textContent = `${form.get("name")} est prête sur ${channel} avec un budget de ${Number(form.get("budget")).toLocaleString("fr-FR")} FCFA.`;
+  campaignModal.close();
+  event.target.reset();
+});
+const notificationForm = document.querySelector("#notification-form");
+notificationForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const total = Number(document.querySelector("#notification-total").textContent) + 1;
+  document.querySelector("#notification-total").textContent = total;
+  document.querySelector("#notification-message").textContent = `${form.get("channel")} préparé pour ${form.get("recipient")}. Connexion API requise pour l'envoi réel.`;
+});
+function formatCurrency(amount) {
+  return `${amount.toLocaleString("fr-FR")} FCFA`;
+}
+function renderAccounting() {
+  document.querySelector("#accounting-count").textContent = accountingEntries.length;
+  document.querySelector("#accounting-total").textContent = formatCurrency(accountingEntries.reduce((total, entry) => total + entry.amount, 0));
+  document.querySelector("#accounting-table").innerHTML = accountingEntries.length
+    ? accountingEntries.map((entry) => `<tr><td><strong>${escapeHtml(entry.reference)}</strong></td><td>${escapeHtml(entry.order)}</td><td>${escapeHtml(entry.client)}</td><td class="accounting-amount">${formatCurrency(entry.amount)}</td><td>${escapeHtml(entry.recordedAt)}</td><td><span class="accounting-status ${escapeHtml(entry.status)}">${escapeHtml(entry.statusLabel)}</span></td></tr>`).join("")
+    : `<tr><td colspan="6" class="accounting-empty">Aucun paiement reçu à afficher.</td></tr>`;
+  document.querySelector("#recent-payments").innerHTML = accountingEntries.slice(0, 2).map((entry) => {
+    const initials = entry.client.split(/\s+/).map((part) => part[0] || "").join("").slice(0, 2);
+    return `<div><span class="transaction-avatar">${escapeHtml(initials)}</span><p><strong>${escapeHtml(entry.client)}</strong><small>Commande ${escapeHtml(entry.order)} · ${escapeHtml(entry.recordedAt.toLowerCase())}</small></p><b>+${formatCurrency(entry.amount)}</b><em>${escapeHtml(entry.statusLabel)}</em></div>`;
+  }).join("");
+}
+renderClients();
+renderOrders();
+renderRows();
+renderAgents();
+renderAccounting();
+if (!agentStorageReady) {
+  agentMessage.textContent = "Impossible de charger les profils des agents depuis cet appareil.";
+}
+const emergencyDialog = document.querySelector("#emergency-dialog");
+document.querySelector("#open-emergency-mode").addEventListener("click", () => emergencyDialog.showModal());
+document.querySelector("#close-emergency-mode").addEventListener("click", () => emergencyDialog.close());
+emergencyDialog.addEventListener("cancel", (event) => event.preventDefault());
