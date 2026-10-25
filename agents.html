@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aperçu de l’espace agent RACHCO227 pour les missions de transfert et de retrait de colis." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Espace agents — RACHCO227</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="agents.css" />
+  <script src="agents.js" defer></script>
+</head>
+<body>
+  <header class="agent-header">
+    <a class="brand" href="index.html">RACHCO<span>227</span></a>
+    <a class="admin-link" href="index.html#agents">← Retour à l’administration</a>
+  </header>
+  <main class="agent-main">
+    <section class="agent-intro">
+      <p class="eyebrow">ESPACE OPÉRATIONNEL</p>
+      <h1>Transfert et retrait de colis</h1>
+      <p>Consultez les étapes d’une mission et suivez son avancement.</p>
+    </section>
+
+    <aside class="demo-notice" role="note">
+      <strong>Aperçu de démonstration</strong>
+      <p>Cette page ne demande pas de connexion et n’affiche aucune mission réelle. Les exemples et changements ci-dessous sont fictifs et disparaissent au rechargement. Une authentification sécurisée est nécessaire avant toute utilisation par des agents.</p>
+    </aside>
+
+    <section class="mission-section" aria-labelledby="missions-heading">
+      <div class="section-heading">
+        <div><h2 id="missions-heading">Missions d’exemple</h2><p>Testez les actions de transfert et de retrait.</p></div>
+        <div class="mission-filters" role="search" aria-label="Filtres des missions">
+          <label class="filter-label">Rechercher
+            <input id="mission-search" type="search" placeholder="Référence, destination..." autocomplete="off" />
+          </label>
+          <label class="filter-label">Type de mission
+            <select id="mission-filter" aria-label="Filtrer par type de mission">
+              <option value="all">Tous les types</option>
+              <option value="transfer">Transfert</option>
+              <option value="pickup">Retrait</option>
+            </select>
+          </label>
+          <label class="filter-label">État
+            <select id="mission-status-filter" aria-label="Filtrer par état de mission">
+              <option value="all">Tous les états</option>
+              <option value="pending">À prendre en charge</option>
+              <option value="active">En cours</option>
+              <option value="done">Terminée</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="mission-result-count" id="mission-result-count" aria-live="polite"></p>
+      <div class="mission-list" id="mission-list" aria-live="polite"></div>
+      <p class="action-feedback" id="action-feedback" role="status"></p>
+    </section>
+    <dialog class="mission-dialog" id="mission-edit-dialog" aria-labelledby="edit-dialog-title">
+      <form id="mission-edit-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">MISE À JOUR FICTIVE</p><h2 id="edit-dialog-title">Informations de la mission</h2></div>
+          <button class="dialog-close" id="close-mission-dialog" type="button" aria-label="Fermer">×</button>
+        </div>
+        <p class="dialog-note">Ces changements sont temporaires et visibles uniquement dans cette démonstration.</p>
+        <label>Destination de livraison
+          <input name="destination" required maxlength="120" placeholder="Ex. Centre de retrait (exemple)" />
+        </label>
+        <label>Téléphone fictif du client
+          <input name="clientPhone" type="tel" required maxlength="24" autocomplete="off" placeholder="+221 70 000 00 00" />
+        </label>
+        <label>Mode de retrait
+          <select name="withdrawalMethod" id="withdrawal-method" required>
+            <option value="client">Retrait par le client</option>
+            <option value="proxy">Retrait par une personne autorisée</option>
+            <option value="relay">Retrait au point relais</option>
+          </select>
+        </label>
+        <label id="identity-type-field">Pièce à présenter
+          <select name="identityType" id="identity-type">
+            <option value="national-id">Carte nationale d’identité</option>
+            <option value="driver-license">Permis de conduire</option>
+            <option value="passport">Passeport</option>
+          </select>
+        </label>
+        <p class="privacy-note">Sélectionnez uniquement le type de pièce à vérifier. Ne saisissez pas son numéro et ne téléversez pas de document.</p>
+        <p class="dialog-feedback" id="mission-edit-feedback" role="status"></p>
+        <div class="dialog-actions">
+          <button class="secondary-button" id="cancel-mission-edit" type="button">Annuler</button>
+          <button class="action-button" type="submit">Appliquer dans la démo</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+  <footer class="agent-footer">RACHCO227 · Espace de démonstration — aucune opération réelle</footer>
+</body>
+</html>
