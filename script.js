@@ -276,7 +276,7 @@ document.querySelector("#payment-form").addEventListener("submit", (event) => {
   paymentModal.close();
 });
 const shippingModal = document.querySelector("#shipping-modal");
-document.querySelector("#settings-link").addEventListener("click", (event) => { event.preventDefault(); shippingModal.showModal(); });
+document.querySelector("#open-shipping-modal").addEventListener("click", () => shippingModal.showModal());
 document.querySelector("#shipping-form .close-modal").addEventListener("click", () => shippingModal.close());
 document.querySelector("#shipping-form").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -285,6 +285,13 @@ document.querySelector("#shipping-form").addEventListener("submit", (event) => {
   document.querySelector(".warehouse-status small").textContent = `Envoi depuis · ${values.get("city")}`;
   document.querySelector(".modal-copy").textContent = `Adresse enregistrée : ${address}`;
   shippingModal.close();
+});
+const accountSettingsFeedback = document.querySelector("#account-settings-feedback");
+document.querySelector("#account-login").addEventListener("click", () => {
+  accountSettingsFeedback.textContent = "La connexion n’est pas configurée. Ajoutez un service d’authentification côté serveur avant de connecter des comptes.";
+});
+document.querySelector("#account-logout").addEventListener("click", () => {
+  accountSettingsFeedback.textContent = "Aucune session réelle n’est gérée par cette version. Fermez la session depuis votre fournisseur d’authentification.";
 });
 const destinationModal = document.querySelector("#destination-modal");
 const destinationForm = document.querySelector("#destination-form");

@@ -215,6 +215,28 @@
       <div class="notification-history"><strong>Dernières notifications</strong><span>WhatsApp · Amina Diop · il y a 12 min</span><span>SMS · Koffi Mensah · il y a 38 min</span></div>
     </section>
 
+    <section class="panel account-settings-panel" id="settings" aria-labelledby="settings-heading">
+      <div class="panel-heading">
+        <div><h2 id="settings-heading">Paramètres</h2><p>Gérez les options de compte et d’expédition.</p></div>
+        <span class="password-status">Authentification non configurée</span>
+      </div>
+      <div class="account-settings-content">
+        <div>
+          <h3>Connexion aux comptes</h3>
+          <p class="account-settings-note">Aucune session de compte n’est gérée par cette version. Connectez un service d’authentification côté serveur pour permettre une connexion ou une déconnexion sécurisée. Aucun mot de passe ne sera demandé ici.</p>
+          <div class="account-settings-actions">
+            <button class="primary-button compact-button" id="account-login" type="button">Connexion</button>
+            <button class="outline-button account-logout-button" id="account-logout" type="button">Déconnexion</button>
+          </div>
+          <p class="account-settings-feedback" id="account-settings-feedback" role="status" aria-live="polite"></p>
+        </div>
+        <div class="shipping-settings">
+          <div><h3>Adresse d’expédition</h3><p>Modifiez l’adresse de départ de vos colis.</p></div>
+          <button class="outline-button" id="open-shipping-modal" type="button">Gérer l’adresse <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <dialog id="campaign-modal"><form method="dialog" id="campaign-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE CAMPAGNE</p><h2>Créer une campagne</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom de la campagne<input name="name" required placeholder="Ex. Livraison express Dakar" /></label><div class="form-row"><label>Canal<select name="channel"><option>Facebook & Instagram</option><option>WhatsApp Business</option><option>Google Search</option></select></label><label>Budget<input name="budget" type="number" min="1" required placeholder="FCFA" /></label></div><button class="primary-button" type="submit">Lancer la campagne</button></form></dialog>

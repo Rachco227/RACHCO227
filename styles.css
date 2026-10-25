@@ -21,6 +21,18 @@ html{scrollbar-color:var(--blue) var(--paper);scrollbar-width:thin}::-webkit-scr
 .qr-manager-panel{margin-top:14px}.qr-manager-panel .panel-heading{align-items:center}.qr-tracking-number{color:var(--blue);font-size:11px;font-weight:700;letter-spacing:.03em}.qr-manager-note,.qr-empty{color:var(--muted);font-size:11px}.qr-empty{text-align:center;padding:24px 10px}.qr-message{min-height:15px;margin:0;color:var(--muted);font-size:11px;text-align:center}.qr-body .primary-button:disabled{background:#aeb8d1;box-shadow:none;cursor:not-allowed;transform:none}.qr-body .primary-button:disabled:hover{background:#aeb8d1}@media(max-width:650px){.qr-manager-panel .panel-heading{display:block}.qr-manager-panel .heading-actions{margin-top:16px}.qr-manager-panel .panel-footer{display:flex;gap:12px;align-items:flex-start}.qr-manager-note{text-align:right}}
 .accounting-panel{margin-top:14px}.accounting-summary{display:flex;gap:48px;padding:15px 0 20px;border-top:1px solid #edf0f6;border-bottom:1px solid #edf0f6}.accounting-summary>div{display:flex;flex-direction:column;gap:5px}.accounting-summary span{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em}.accounting-summary strong{font:600 1.2rem var(--display);letter-spacing:-.04em}.accounting-amount{color:var(--ink);font-weight:700}.accounting-status{padding:5px 8px;border-radius:12px;background:#e7f7ef;color:var(--green);font-size:10px;font-weight:700}.accounting-notice{margin:14px 0 0;color:var(--muted);font-size:11px;line-height:1.5}.accounting-empty{text-align:center;color:var(--muted);padding:24px 10px}@media(max-width:650px){.accounting-summary{gap:28px;overflow:auto}.accounting-summary>div{min-width:125px}}
 .agent-preview-link{text-decoration:none}
+.account-settings-panel{margin-top:14px}
+.account-settings-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.75fr);gap:26px}
+.account-settings-content h3{margin:0 0 7px;font:600 1rem var(--display);letter-spacing:-.03em}
+.account-settings-note,.shipping-settings p{max-width:70ch;margin:0;color:var(--muted);font-size:11px;line-height:1.55}
+.account-settings-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.account-settings-actions .primary-button,.account-settings-actions .outline-button{min-width:120px;text-align:center}
+.account-logout-button{padding:9px 12px}
+.account-settings-feedback{min-height:16px;margin:10px 0 0;color:var(--muted);font-size:11px;line-height:1.45}
+.shipping-settings{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-left:22px;border-left:1px solid var(--line)}
+.shipping-settings .outline-button{flex-shrink:0}
+.account-settings-panel button:focus-visible{outline:3px solid #83a0ff;outline-offset:2px}
+@media(max-width:650px){.account-settings-content{grid-template-columns:1fr;gap:18px}.shipping-settings{align-items:flex-start;flex-direction:column;padding:17px 0 0;border-left:0;border-top:1px solid var(--line)}.account-settings-actions{display:grid;grid-template-columns:1fr 1fr}.account-settings-actions button{width:100%}}
 .revoke-agent-access{padding:9px 12px;border-color:#e7c5c2;background:#fff8f7;color:#8f2a24;font-size:11px;font-weight:700;white-space:nowrap;transition:background .15s,border-color .15s}
 .revoke-agent-access:hover:not(:disabled){border-color:#ca8d87;background:#fdecea}
 .revoke-agent-access:focus-visible{outline:3px solid #e7a29c;outline-offset:3px}
