@@ -32,14 +32,28 @@
     <section class="mission-section" aria-labelledby="missions-heading">
       <div class="section-heading">
         <div><h2 id="missions-heading">Missions d’exemple</h2><p>Testez les actions de transfert et de retrait.</p></div>
-        <label class="filter-label">Type de mission
-          <select id="mission-filter" aria-label="Filtrer par type de mission">
-            <option value="all">Toutes les missions</option>
-            <option value="transfer">Transfert</option>
-            <option value="pickup">Retrait</option>
-          </select>
-        </label>
+        <div class="mission-filters" role="search" aria-label="Filtres des missions">
+          <label class="filter-label">Rechercher
+            <input id="mission-search" type="search" placeholder="Référence, destination..." autocomplete="off" />
+          </label>
+          <label class="filter-label">Type de mission
+            <select id="mission-filter" aria-label="Filtrer par type de mission">
+              <option value="all">Tous les types</option>
+              <option value="transfer">Transfert</option>
+              <option value="pickup">Retrait</option>
+            </select>
+          </label>
+          <label class="filter-label">État
+            <select id="mission-status-filter" aria-label="Filtrer par état de mission">
+              <option value="all">Tous les états</option>
+              <option value="pending">À prendre en charge</option>
+              <option value="active">En cours</option>
+              <option value="done">Terminée</option>
+            </select>
+          </label>
+        </div>
       </div>
+      <p class="mission-result-count" id="mission-result-count" aria-live="polite"></p>
       <div class="mission-list" id="mission-list" aria-live="polite"></div>
       <p class="action-feedback" id="action-feedback" role="status"></p>
     </section>

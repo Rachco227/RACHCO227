@@ -42,6 +42,9 @@ const missions = [
 
 const missionList = document.querySelector("#mission-list");
 const missionFilter = document.querySelector("#mission-filter");
+const missionStatusFilter = document.querySelector("#mission-status-filter");
+const missionSearch = document.querySelector("#mission-search");
+const missionResultCount = document.querySelector("#mission-result-count");
 const feedback = document.querySelector("#action-feedback");
 const editDialog = document.querySelector("#mission-edit-dialog");
 const editForm = document.querySelector("#mission-edit-form");
@@ -78,8 +81,19 @@ function identityTypeLabel(type) {
 }
 
 function renderMissions() {
-  const filter = missionFilter.value;
-  const visibleMissions = missions.filter((mission) => filter === "all" || mission.type === filter);
+  const typeFilter = missionFilter.value;
+  const statusFilter = missionStatusFilter.value;
+  const query = missionSearch.value.trim().toLocaleLowerCase("fr");
+  const visibleMissions = missions.filter((mission) => {
+    const matchesType = typeFilter === "all" || mission.type === typeFilter;
+    const matchesStatus = statusFilter === "all" ||
+      (statusFilter === "pending" && ["À prendre en charge", "Retrait à confirmer"].includes(mission.status)) ||
+      (statusFilter === "active" && mission.status === "En cours") ||
+      (statusFilter === "done" && mission.status === "Terminée");
+    const searchableText = `${mission.id} ${mission.title} ${mission.origin} ${mission.destination} ${mission.clientPhone} ${mission.instruction}`.toLocaleLowerCase("fr");
+    return matchesType && matchesStatus && searchableText.includes(query);
+  });
+  missionResultCount.textContent = `${visibleMissions.length} mission${visibleMissions.length === 1 ? "" : "s"} affichée${visibleMissions.length === 1 ? "" : "s"} sur ${missions.length}.`;
   missionList.innerHTML = visibleMissions.length
     ? visibleMissions.map((mission) => {
       const missionType = mission.type === "pickup" ? "Retrait" : "Transfert";
@@ -98,7 +112,7 @@ function renderMissions() {
         <div class="mission-actions"><span class="mission-status ${statusClass}">${escapeHtml(mission.status)}</span><div class="mission-action-buttons"><button class="secondary-button edit-mission-button" type="button" data-edit-mission="${escapeHtml(mission.id)}">Modifier destination et retrait</button>${mission.nextAction ? `<button class="action-button" type="button" data-mission-id="${escapeHtml(mission.id)}">${escapeHtml(mission.nextAction)}</button>` : ""}</div></div>
       </article>`;
     }).join("")
-    : `<p class="mission-empty">Aucune mission de ce type dans cet aperçu.</p>`;
+    : `<p class="mission-empty">Aucune mission ne correspond à ces filtres. Modifiez votre recherche ou vos critères.</p>`;
 }
 
 function updateIdentityField() {
@@ -162,6 +176,14 @@ editForm.addEventListener("submit", (event) => {
 });
 
 missionFilter.addEventListener("change", () => {
+  feedback.textContent = "";
+  renderMissions();
+});
+missionStatusFilter.addEventListener("change", () => {
+  feedback.textContent = "";
+  renderMissions();
+});
+missionSearch.addEventListener("input", () => {
   feedback.textContent = "";
   renderMissions();
 });
