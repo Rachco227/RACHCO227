@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RACHCO227 — gestion des marchandises, clients, commandes, expéditions et paiements pour votre activité en Afrique de l’Ouest." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://rachco227.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="RACHCO227 — Gestion des opérations" />
+  <meta property="og:description" content="Gérez votre dépôt, vos clients, vos commandes et vos expéditions depuis un seul tableau de bord." />
+  <meta property="og:url" content="https://rachco227.com/" />
+  <meta name="twitter:card" content="summary" />
+  <title>RACHCO227 — Gestion des opérations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "RACHCO227",
+    "url": "https://rachco227.com/",
+    "description": "Gestion des marchandises, clients, commandes et expéditions en Afrique de l’Ouest."
+  }
+  </script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#">RACHCO<span>227</span></a>
+    <p class="workspace-label">ESPACE OPÉRATIONS</p>
+    <nav>
+      <a class="nav-link active" href="#dashboard"><span>▦</span> Vue générale</a>
+      <a class="nav-link" href="#stock"><span>▤</span> Marchandises <b id="nav-stock-count">24</b></a>
+      <a class="nav-link" href="#movements"><span>↕</span> Mouvements</a>
+      <a class="nav-link" href="#orders"><span>□</span> Commandes <b id="nav-order-count">12</b></a>
+      <a class="nav-link" href="#qr-codes"><span>▦</span> Gestionnaire QR</a>
+      <a class="nav-link" href="#agents"><span>♙</span> Agents d’envoi <b id="nav-agent-count">0</b></a>
+      <a class="nav-link" href="agents.html"><span>⇄</span> Espace agents (démo)</a>
+      <a class="nav-link" href="#agent-password"><span>⌑</span> Accès agents</a>
+      <a class="nav-link" href="#parcel-destination"><span>⌖</span> Destination colis</a>
+      <a class="nav-link" href="#clients"><span>♙</span> Clients <b id="nav-client-count">128</b></a>
+      <a class="nav-link" href="#accounting"><span>▧</span> Comptabilité</a>
+      <a class="nav-link" href="#payments"><span>₣</span> Paiements <b class="nav-new">NEW</b></a>
+      <a class="nav-link" href="#advertising"><span>◈</span> Publicité</a>
+      <a class="nav-link" href="#notifications"><span>✦</span> Notifications <b class="nav-new">NEW</b></a>
+      <a class="nav-link" href="#suppliers"><span>⌁</span> Fournisseurs</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="warehouse-status"><span></span><div><strong>Dépôt principal</strong><small>Ouvert · Inde · Mumbai</small><a class="warehouse-phone" href="tel:0022798834749">0022798834749</a></div></div>
+      <a class="nav-link muted" href="#settings" id="settings-link"><span>⚙</span> Paramètres</a>
+    </div>
+  </aside>
+
+  <main class="main" id="dashboard">
+    <header class="topbar">
+      <div class="breadcrumb"><span>Opérations</span><b>/</b> Dépôt de marchandises</div>
+      <div class="top-actions"><a class="client-switch" href="client.html">↗ Portail client</a><a class="contact-phone" href="tel:0022798834749" aria-label="Contacter RACHCO227">☎ 0022798834749</a><button class="emergency-trigger" id="open-emergency-mode" type="button">⚠ Mode urgence</button><button class="icon-button" aria-label="Notifications">♢<i></i></button><div class="avatar">R</div><span class="user-name">Rachco Admin</span><button class="mobile-menu" aria-label="Ouvrir le menu">☰</button></div>
+    </header>
+    <section class="page-intro">
+      <div><p class="eyebrow">LUNDI 22 SEPTEMBRE 2026 · 09:42</p><h1>Bonjour, Rachco.</h1><p class="intro-copy">Voici l’état de votre dépôt aujourd’hui.</p></div>
+      <button class="primary-button" id="open-stock-modal">＋ Enregistrer une entrée</button>
+    </section>
+
+    <section class="metrics" aria-label="Résumé du stock">
+      <article class="metric-card"><div class="metric-icon blue">▤</div><div><p>Articles en stock</p><strong id="total-stock">1 248</strong><small class="positive">↑ 8,4% <em>vs. mois dernier</em></small></div></article>
+      <article class="metric-card"><div class="metric-icon orange">◌</div><div><p>À réapprovisionner</p><strong id="low-stock">07</strong><small class="warning">Niveau critique</small></div></article>
+      <article class="metric-card"><div class="metric-icon green">↗</div><div><p>Entrées ce mois</p><strong>326</strong><small class="positive">↑ 12,1% <em>vs. mois dernier</em></small></div></article>
+      <article class="metric-card"><div class="metric-icon purple">◷</div><div><p>Valeur du stock</p><strong>48 620 €</strong><small class="neutral">Dernière mise à jour · 09:40</small></div></article>
+    </section>
+
+    <section class="panel clients-panel" id="clients">
+      <div class="panel-heading">
+        <div><h2>Clients</h2><p>Suivez vos clients et leurs dernières commandes.</p></div>
+        <div class="heading-actions">
+          <label class="search"><span>⌕</span><input id="client-search" placeholder="Rechercher un client..." /></label>
+          <select id="client-filter" aria-label="Filtrer les clients"><option value="all">Tous les statuts</option><option value="active">Actifs</option><option value="pending">À confirmer</option></select>
+          <button class="primary-button compact-button" id="open-client-modal">＋ Nouveau client</button>
+        </div>
+      </div>
+      <div class="client-summary"><div><span class="summary-label">Clients inscrits</span><strong id="client-total">128</strong></div><div><span class="summary-label">Commandes ce mois</span><strong>86</strong></div><div><span class="summary-label">Panier moyen</span><strong>74 €</strong></div><div class="client-growth">↑ 14,6% <small>vs. mois dernier</small></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Dernière commande</th><th>Statut</th><th></th></tr></thead><tbody id="client-table"></tbody></table></div>
+      <div class="panel-footer"><span id="client-result-count">4 clients</span><button class="text-button">Voir tous les clients <span>→</span></button></div>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel stock-panel" id="stock">
+        <div class="panel-heading"><div><h2>Stock actuel</h2><p>Suivez vos marchandises par catégorie.</p></div><div class="heading-actions"><label class="search"><span>⌕</span><input id="stock-search" placeholder="Rechercher..." /></label><select id="category-filter" aria-label="Filtrer par catégorie"><option value="all">Toutes les catégories</option><option value="vêtements">Vêtements</option><option value="accessoires">Accessoires</option><option value="packaging">Packaging</option></select></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Produit</th><th>Référence</th><th>Catégorie</th><th>Quantité</th><th>État</th><th></th></tr></thead><tbody id="stock-table"></tbody></table></div>
+        <div class="panel-footer"><span id="result-count">24 références</span><button class="text-button">Voir tout le stock <span>→</span></button></div>
+      </article>
+      <article class="panel movements-panel" id="movements"><div class="panel-heading"><div><h2>Activité récente</h2><p>Les dernières opérations du dépôt.</p></div><button class="dots" aria-label="Plus d'options">•••</button></div><div class="activity-list" id="activity-list"></div><button class="full-button">Voir tous les mouvements <span>→</span></button></article>
+    </section>
+
+    <section class="panel orders-panel" id="orders">
+      <div class="panel-heading"><div><p class="eyebrow">SUIVI DES ENVOIS</p><h2>Commandes</h2><p>Préparez et suivez les colis clients.</p></div><div class="heading-actions"><label class="search"><span>⌕</span><input id="order-search" placeholder="Rechercher une commande..." /></label><select id="order-filter" aria-label="Filtrer les commandes"><option value="all">Tous les statuts</option><option value="preparing">À préparer</option><option value="shipping">En livraison</option><option value="delivered">Livrées</option></select></div></div>
+      <div class="orders-summary"><div><span>Commandes ouvertes</span><strong>12</strong></div><div><span>À préparer</span><strong>05</strong></div><div><span>En livraison</span><strong>04</strong></div><div><span>Livrées ce mois</span><strong>86</strong></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Commande</th><th>Client</th><th>Destination</th><th>Montant</th><th>Statut</th><th></th></tr></thead><tbody id="order-table"></tbody></table></div>
+      <div class="panel-footer"><span id="order-result-count">4 commandes</span><button class="text-button">Voir toutes les commandes <span>→</span></button></div>
+    </section>
+
+    <section class="panel qr-manager-panel" id="qr-codes">
+      <div class="panel-heading">
+        <div><h2>Gestionnaire de QR codes</h2><p>Générez et imprimez les étiquettes de suivi de chaque colis.</p></div>
+        <div class="heading-actions">
+          <label class="search"><span>⌕</span><input id="qr-search" type="search" placeholder="Rechercher un colis..." aria-label="Rechercher un colis par commande, client ou destination" /></label>
+          <select id="qr-status-filter" aria-label="Filtrer les QR codes par statut"><option value="all">Tous les statuts</option><option value="preparing">À préparer</option><option value="shipping">En livraison</option><option value="delivered">Livrées</option></select>
+        </div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Commande</th><th>Client</th><th>Numéro de suivi</th><th>Destination</th><th>Statut</th><th></th></tr></thead><tbody id="qr-table"></tbody></table></div>
+      <div class="panel-footer"><span id="qr-result-count">4 colis avec QR code</span><span class="qr-manager-note">Le scan ouvre le suivi client de ce colis.</span></div>
+    </section>
+
+    <section class="panel agents-panel" id="agents">
+      <div class="panel-heading">
+        <div><h2>Agents d’expédition</h2><p>Gérez les profils des personnes chargées de vos colis.</p></div>
+        <div class="heading-actions"><a class="outline-button agent-preview-link" href="agents.html">Voir l’espace agents (démo) <span>→</span></a><button class="outline-button revoke-agent-access" id="revoke-all-agents" type="button" aria-describedby="agent-access-note" disabled>Suspendre tous les agents</button><button class="primary-button compact-button" id="open-agent-modal">＋ Ajouter un agent</button></div>
+      </div>
+      <p class="agents-notice" id="agent-access-note">Ces profils sont enregistrés sur cet appareil et ne sont pas des comptes de connexion. La suspension ci-dessus ne révoque pas d’identifiants réels; une authentification côté serveur est nécessaire pour couper les accès des agents.</p>
+      <div class="table-wrap"><table><thead><tr><th>Agent</th><th>Email</th><th>Téléphone</th><th>Zone</th><th>Mission & retrait</th><th>Accès</th><th></th></tr></thead><tbody id="agent-table"></tbody></table></div>
+      <div class="panel-footer"><span id="agent-result-count">0 agent</span><span id="agent-message" class="agent-message" role="status"></span></div>
+    </section>
+
+    <section class="panel agent-password-panel" id="agent-password">
+      <div class="panel-heading">
+        <div><h2>Réinitialisation du mot de passe</h2><p>Accès de l’équipe d’expédition</p></div>
+        <span class="password-status">Non configurée</span>
+      </div>
+      <p class="password-guidance">Les profils d’agent enregistrés ici ne sont pas des comptes de connexion. La réinitialisation sécurisée nécessite un service d’authentification côté serveur. Aucun mot de passe ne sera demandé ni conservé dans ce tableau de bord.</p>
+      <button class="outline-button password-reset-disabled" type="button" disabled aria-describedby="agent-password-guidance">Réinitialisation indisponible</button>
+      <span id="agent-password-guidance" class="visually-hidden">Configurez un service d’authentification côté serveur pour activer la réinitialisation sécurisée.</span>
+    </section>
+
+    <section class="panel parcel-destination-panel" id="parcel-destination">
+      <div class="panel-heading"><div><p class="eyebrow">GESTION DES ENVOIS</p><h2>Modifier la destination d’un colis</h2><p>Corrigez l’adresse de livraison avant la remise au transporteur.</p></div><button class="primary-button compact-button" id="open-destination-modal">＋ Modifier une destination</button></div>
+      <div class="destination-editor-summary"><div><span>Dernière modification</span><strong id="destination-summary-order">Commande #1048</strong></div><div><span>Destination actuelle</span><strong id="destination-summary-place">Abidjan, Côte d’Ivoire</strong><small id="destination-summary-address">Rue 12, Cocody</small></div><div><span>Statut</span><b class="order-status shipping">En livraison</b></div></div>
+      <p class="destination-editor-note">La modification sera appliquée à la commande sélectionnée et visible dans le tableau des commandes.</p>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="panel delivery-card"><div class="delivery-title"><div><p class="eyebrow">PROCHAINE RÉCEPTION</p><h2>Livraison fournisseur</h2></div><span class="date-badge">24 <small>SEP</small></span></div><div class="supplier"><div class="supplier-logo">AT</div><div><strong>Atelier Textile</strong><p>Commande #AT-2841 · 84 articles</p></div><span class="arrival">Dans 2 jours</span></div><div class="progress"><span style="width: 72%"></span></div><div class="progress-label"><span>Préparation fournisseur</span><span>72%</span></div></article>
+      <article class="panel alert-card"><div class="panel-heading"><div><h2>Alertes stock</h2><p>Actions recommandées.</p></div><span class="alert-count">3</span></div><div class="alert-row"><span class="alert-dot red"></span><div><strong>Hoodie Transit</strong><p>Plus que 4 unités</p></div><button class="small-button">Commander</button></div><div class="alert-row"><span class="alert-dot yellow"></span><div><strong>Étiquettes colis</strong><p>Stock faible · 18 unités</p></div><button class="small-button">Voir</button></div></article>
+    </section>
+
+    <section class="panel payments-panel" id="payments">
+      <div class="panel-heading">
+        <div><p class="eyebrow">ENCAISSEMENT MOBILE</p><h2>Mode de paiement</h2><p>Recevez les paiements clients avec Mynita et Wave.</p></div>
+        <span class="payment-connected"><i></i> Connecté</span>
+      </div>
+      <div class="payment-layout">
+        <div class="wave-card">
+          <div class="wave-card-head"><div class="wave-logo">W</div><div><strong>Mynita et Wave</strong><small>Paiement mobile</small></div><span class="verified">✓ Vérifié</span></div>
+          <div class="merchant-number"><small>COMPTE MARCHAND</small><strong>0022798834749</strong></div>
+          <div class="wave-card-foot"><span>Devise <b>FCFA</b></span><span>Dernière synchro · 09:41</span></div>
+        </div>
+        <div class="payment-stats"><div><span>Reçus ce mois</span><strong>186 400 FCFA</strong><small class="positive">↑ 18,2%</small></div><div><span>Transactions</span><strong>42</strong><small>100% confirmées</small></div><button class="outline-button" id="open-payment-modal">Gérer Mynita et Wave <span>→</span></button></div>
+      </div>
+      <div class="payment-activity"><div class="payment-activity-head"><strong>Derniers paiements</strong><a class="text-button" href="#accounting">Voir le tableau comptable <span>→</span></a></div><div class="payment-transactions" id="recent-payments"></div></div>
+    </section>
+
+    <section class="panel accounting-panel" id="accounting">
+      <div class="panel-heading">
+        <div><h2>Tableau comptable</h2><p>Suivi des paiements reçus et rattachés aux commandes.</p></div>
+      </div>
+      <div class="accounting-summary" aria-label="Résumé des paiements listés">
+        <div><span>Opérations listées</span><strong id="accounting-count">0</strong></div>
+        <div><span>Montant total listé</span><strong id="accounting-total">0 FCFA</strong></div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Référence</th><th>Commande</th><th>Client</th><th>Montant reçu</th><th>Moment</th><th>Statut</th></tr></thead>
+        <tbody id="accounting-table"></tbody>
+      </table></div>
+      <p class="accounting-notice">Les opérations affichées sont des exemples locaux. Connectez une source de paiement pour obtenir des écritures comptables réelles.</p>
+    </section>
+
+    <section class="panel advertising-panel" id="advertising">
+      <div class="panel-heading">
+        <div><p class="eyebrow">ACQUISITION CLIENTS</p><h2>Chaîne de publicité</h2><p>Suivez les performances de vos campagnes et de vos canaux.</p></div>
+        <button class="primary-button compact-button" id="open-campaign-modal">＋ Nouvelle campagne</button>
+      </div>
+      <div class="ad-overview">
+        <div><span>Budget consommé</span><strong>186 000 FCFA</strong><small>sur 250 000 FCFA</small><div class="ad-progress"><i style="width:74%"></i></div></div>
+        <div><span>Portée totale</span><strong>48 620</strong><small class="positive">↑ 21,4% ce mois</small></div>
+        <div><span>Conversions</span><strong>186</strong><small class="positive">↑ 18,2% ce mois</small></div>
+        <div><span>Coût par conversion</span><strong>1 000 FCFA</strong><small>Objectif · 1 200 FCFA</small></div>
+      </div>
+      <div class="ad-channels">
+        <div class="ad-channel"><div class="channel-icon meta">M</div><div><strong>Facebook & Instagram</strong><small>Campagne « Livraison Dakar »</small></div><span class="channel-status live">Active</span><b>32 400 <small>clics</small></b></div>
+        <div class="ad-channel"><div class="channel-icon wave">W</div><div><strong>WhatsApp Business</strong><small>Catalogue et messages clients</small></div><span class="channel-status live">Active</span><b>18 620 <small>vues</small></b></div>
+        <div class="ad-channel"><div class="channel-icon google">G</div><div><strong>Google Search</strong><small>« livraison colis Afrique de l’Ouest »</small></div><span class="channel-status paused">En pause</span><b>4 860 <small>impressions</small></b></div>
+      </div>
+    </section>
+
+    <section class="panel notifications-panel" id="notifications">
+      <div class="panel-heading">
+        <div><p class="eyebrow">RELATION CLIENT</p><h2>Notifications WhatsApp & SMS</h2><p>Informez vos clients à chaque étape de leur commande.</p></div>
+        <span class="payment-connected"><i></i> Canaux prêts</span>
+      </div>
+      <div class="notification-layout">
+        <div class="notification-channels">
+          <div class="notification-channel"><span class="channel-icon wave">W</span><div><strong>WhatsApp Business</strong><small>Messages transactionnels</small></div><b class="channel-on">Activé</b></div>
+          <div class="notification-channel"><span class="channel-icon google">S</span><div><strong>SMS de suivi</strong><small>Alertes courtes et urgentes</small></div><b class="channel-on">Activé</b></div>
+          <div class="notification-stats"><div><span>Envoyées ce mois</span><strong id="notification-total">186</strong></div><div><span>Taux de délivrance</span><strong>98,4%</strong></div></div>
+        </div>
+        <form class="notification-form" id="notification-form">
+          <label>Canal<select name="channel"><option>WhatsApp Business</option><option>SMS</option></select></label>
+          <label>Destinataire<input name="recipient" type="tel" required value="0022798834749" /></label>
+          <label>Modèle de message<select name="template"><option>Commande prise en charge</option><option>Colis en livraison</option><option>Commande livrée</option><option>Message personnalisé</option></select></label>
+          <label>Message<textarea name="message" rows="3" required>RACHCO227 : votre colis R227-1048 est en livraison. Suivez son trajet depuis votre espace client.</textarea></label>
+          <button class="primary-button" type="submit">Préparer l’envoi <span>→</span></button>
+          <p class="notification-message" id="notification-message" role="status"></p>
+        </form>
+      </div>
+      <div class="notification-history"><strong>Dernières notifications</strong><span>WhatsApp · Amina Diop · il y a 12 min</span><span>SMS · Koffi Mensah · il y a 38 min</span></div>
+    </section>
+
+    <section class="panel account-settings-panel" id="settings" aria-labelledby="settings-heading">
+      <div class="panel-heading">
+        <div><h2 id="settings-heading">Paramètres</h2><p>Gérez les options de compte et d’expédition.</p></div>
+        <span class="password-status">Authentification non configurée</span>
+      </div>
+      <div class="account-settings-content">
+        <div>
+          <h3>Connexion aux comptes</h3>
+          <p class="account-settings-note">Aucune session de compte n’est gérée par cette version. Connectez un service d’authentification côté serveur pour permettre une connexion ou une déconnexion sécurisée. Aucun mot de passe ne sera demandé ici.</p>
+          <div class="account-settings-actions">
+            <button class="primary-button compact-button" id="account-login" type="button">Connexion</button>
+            <button class="outline-button account-logout-button" id="account-logout" type="button">Déconnexion</button>
+          </div>
+          <p class="account-settings-feedback" id="account-settings-feedback" role="status" aria-live="polite"></p>
+        </div>
+        <div class="shipping-settings">
+          <div><h3>Adresse d’expédition</h3><p>Modifiez l’adresse de départ de vos colis.</p></div>
+          <button class="outline-button" id="open-shipping-modal" type="button">Gérer l’adresse <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <dialog id="campaign-modal"><form method="dialog" id="campaign-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE CAMPAGNE</p><h2>Créer une campagne</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom de la campagne<input name="name" required placeholder="Ex. Livraison express Dakar" /></label><div class="form-row"><label>Canal<select name="channel"><option>Facebook & Instagram</option><option>WhatsApp Business</option><option>Google Search</option></select></label><label>Budget<input name="budget" type="number" min="1" required placeholder="FCFA" /></label></div><button class="primary-button" type="submit">Lancer la campagne</button></form></dialog>
+  <dialog id="shipping-modal"><form method="dialog" id="shipping-form"><div class="modal-heading"><div><p class="eyebrow">PARAMÈTRES D’EXPÉDITION</p><h2>Adresse d’envoi</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Cette adresse sera utilisée comme point de départ pour vos colis.</p><label>Adresse<input name="address" value="Dépôt RACHCO227, Zone industrielle" required /></label><div class="form-row"><label>Ville<input name="city" value="Mumbai" required /></label><label>Pays<input name="country" value="Inde" required /></label></div><button class="primary-button" type="submit">Enregistrer l’adresse</button></form></dialog>
+  <dialog id="destination-modal"><form method="dialog" id="destination-form"><div class="modal-heading"><div><p class="eyebrow">DESTINATION COLIS</p><h2>Modifier une livraison</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Choisissez une commande et renseignez sa nouvelle destination.</p><label>Commande<select name="order" required><option value="#1048">#1048 · Amina Diop</option><option value="#1047">#1047 · Koffi Mensah</option><option value="#1046">#1046 · Mariam Traoré</option><option value="#1045">#1045 · Jean Kouassi</option></select></label><label>Adresse complète<input name="address" required value="Rue 12, Cocody" placeholder="Ex. Rue 12, Cocody" /></label><div class="form-row"><label>Ville<input name="city" required value="Abidjan" /></label><label>Pays<select name="country" required><option>Côte d’Ivoire</option><option>Sénégal</option><option>Niger</option><option>Togo</option><option>Ghana</option><option>Nigeria</option><option>Guinée</option><option>Mali</option><option>Burkina Faso</option></select></label></div><button class="primary-button" type="submit">Enregistrer la destination</button></form></dialog>
+  <dialog id="qr-modal"><div class="qr-modal-content"><div class="modal-heading"><div><p class="eyebrow">IDENTIFICATION COLIS</p><h2>Code QR du colis</h2></div><button class="close-modal" id="close-qr-modal" aria-label="Fermer">×</button></div><div class="qr-body"><canvas id="qr-canvas" width="220" height="220" aria-label="Code QR ouvrant le suivi client du colis"></canvas><strong id="qr-order-number">Commande #1048</strong><span id="qr-code-label">RACHCO-1048</span><small id="qr-destination-label">Abidjan, Côte d’Ivoire</small><p id="qr-message" class="qr-message" role="status" aria-live="polite"></p><button class="primary-button" id="print-qr" type="button" disabled>Imprimer l’étiquette</button></div></div></dialog>
+  <dialog id="payment-modal"><form method="dialog" id="payment-form"><div class="modal-heading"><div><p class="eyebrow">CONFIGURATION</p><h2>Mynita et Wave</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Le compte marchand est utilisé pour recevoir les paiements de vos clients.</p><label>Numéro du compte marchand<input name="merchant" value="0022798834749" required /></label><label>Devise<select name="currency"><option>FCFA (XOF)</option><option>FCFA (XAF)</option></select></label><button class="primary-button" type="submit">Enregistrer la configuration</button></form></dialog>
+  <dialog id="client-modal"><form method="dialog" id="client-form"><div class="modal-heading"><div><p class="eyebrow">NOUVEAU PROFIL</p><h2>Ajouter un client</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Nom complet<input name="name" required placeholder="Ex. Amina Diop" /></label><label>Email<input name="email" type="email" required placeholder="client@email.com" /></label><label>Zone de livraison<input name="zone" required placeholder="Ex. Dakar, Sénégal" /></label><button class="primary-button" type="submit">Ajouter le client</button></form></dialog>
+  <dialog id="agent-modal"><form method="dialog" id="agent-form"><div class="modal-heading"><div><p class="eyebrow">ÉQUIPE D’EXPÉDITION</p><h2>Ajouter un agent</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><p class="modal-copy">Créez un profil de suivi pour un agent chargé des colis.</p><label>Nom complet<input name="name" required autocomplete="name" placeholder="Ex. Amina Diop" /></label><label>Email professionnel<input name="email" type="email" required autocomplete="email" placeholder="agent@email.com" /></label><label>Téléphone<input name="phone" type="tel" required autocomplete="tel" placeholder="+221 ..." /></label><label>Zone d’expédition<select name="zone" required><option value="">Choisir une zone</option><option>Dakar, Sénégal</option><option>Niamey, Niger</option><option>Abidjan, Côte d’Ivoire</option><option>Lomé, Togo</option><option>Accra, Ghana</option><option>Lagos, Nigeria</option><option>Conakry, Guinée</option><option>Bamako, Mali</option><option>Ouagadougou, Burkina Faso</option><option>Antananarivo, Madagascar</option></select></label><label>Mission de l’agent<select name="mission" id="agent-mission" required><option value="delivery">Livraison de colis</option><option value="pickup">Retrait de colis</option></select></label><label id="agent-pickup-details" hidden>Informations de retrait<textarea name="pickupInfo" rows="3" placeholder="Lieu de retrait, horaires ou consignes utiles" aria-describedby="agent-pickup-hint"></textarea><small id="agent-pickup-hint" class="agent-field-hint">Précisez où et comment l’agent récupère les colis.</small></label><p class="agent-form-message" id="agent-form-message" role="status"></p><button class="primary-button" type="submit">Enregistrer le profil</button></form></dialog>
+  <dialog id="stock-modal"><form method="dialog" id="stock-form"><div class="modal-heading"><div><p class="eyebrow">NOUVELLE OPÉRATION</p><h2>Enregistrer une entrée</h2></div><button class="close-modal" aria-label="Fermer">×</button></div><label>Produit<input name="product" required placeholder="Nom de la marchandise" /></label><div class="form-row"><label>Référence<input name="reference" required placeholder="Ex. R227-009" /></label><label>Quantité<input name="quantity" type="number" min="1" required placeholder="0" /></label></div><label>Catégorie<select name="category"><option>Vêtements</option><option>Accessoires</option><option>Packaging</option></select></label><button class="primary-button" type="submit">Ajouter au stock</button></form></dialog>
+  <dialog id="emergency-dialog" class="emergency-dialog" aria-labelledby="emergency-title" aria-describedby="emergency-description">
+    <div class="emergency-content">
+      <span class="emergency-mark" aria-hidden="true">!</span>
+      <span class="emergency-scope">Protection locale</span>
+      <h2 id="emergency-title">Mode urgence activé</h2>
+      <p id="emergency-description">L’espace d’administration est masqué dans cet onglet.</p>
+      <div class="emergency-guidance">
+        <strong>En cas de vol de l’appareil ou d’un compte</strong>
+        <p>Contactez le responsable de votre hébergement pour suspendre les accès, puis changez les identifiants et révoquez les sessions depuis le service d’authentification.</p>
+      </div>
+      <p class="emergency-limitation">Ce verrouillage est visuel et local à cet onglet. Il ne déconnecte aucun compte, ne révoque aucun accès et ne protège pas les données côté serveur. Il disparaît si la page est rechargée.</p>
+      <div class="emergency-actions">
+        <a class="emergency-contact" href="tel:0022798834749">☎ Contacter RACHCO227</a>
+        <button class="emergency-return" id="close-emergency-mode" type="button" autofocus>Réafficher le tableau</button>
+      </div>
+    </div>
+  </dialog>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
